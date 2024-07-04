@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "start": "node public/index.js",
+    "build": "tsc -p . && node public/scripts/copyClientFiles.js",
+    "dev": "tsc --watch -p .",
+    "config": "node-config-ts"
+  },
+  "dependencies": {
+    "node-config-ts": "^3.3.1"
+  },
+  "devDependencies": {
+  }
+}

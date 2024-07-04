@@ -1,0 +1,33 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8081
+  },
+
+  "client": {
+    "port": 3001
+  },
+
+  "proxy": {
+    "host": "0.0.0.0",
+    "port": 9001
+  },
+
+  "db": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "mo2rmt",
+    "username": "mo2rmt",
+    "password": "mo2rmt",
+    "logging": false
+  },
+
+  "data": {
+    "importCronPattern": "00 06 * * * *",
+    "playerAuctions": {
+      "trailDateBy": 1,
+      "delayBetweenRequests": 1000,
+      "logs": false
+    }
+  }
+}
