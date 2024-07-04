@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common'
 
+import { QuoteService } from '@/module/quote/quote.service'
 import { SaleService } from '@/module/sale/sale.service'
 
 import Provider from '@@/enum/provider'
 
 import * as Acquisition from './acquisition'
-import { PlayerAuctionsEntry } from './interfaces'
+import { IPlayerAuctionsEntry } from './interfaces'
 
 import env from '@/utils/env'
 import { delay, shortDate } from '@/utils/misc'
@@ -18,6 +19,7 @@ import { config } from 'node-config-ts'
 @Injectable()
 export class PlayerAuctionsService {
   constructor(
+    private readonly quoteService: QuoteService,
     private readonly saleService: SaleService
   ) {
     Acquisition.init()
@@ -27,7 +29,16 @@ export class PlayerAuctionsService {
 
 
 
-  async scrape() {
+  async import() {
+    await this.importQuote()
+    await this.importSales()
+  }
+
+
+
+
+
+  async importSales() {
     //figure out the latest date to persist entries for
     const now = new Date()
     const latestDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - config.data.playerAuctions.trailDateBy)
@@ -37,18 +48,19 @@ export class PlayerAuctionsService {
 
     //if there won't be anything new, return
     if (earliestDate >= latestDate) {
-      log(`skipping PlayerAuctions import - no new data expected`)
+      log(`skipping PlayerAuctions sales import - no new data expected`)
       return
     }
 
-    log(`starting PlayerAuctions import (${shortDate(latestDate)} to ${shortDate(earliestDate)})`)
+    log(`starting PlayerAuctions sales import (${shortDate(latestDate)} to ${shortDate(earliestDate)})`)
   
     //begin scrape
     let page = 0
-    let results:PlayerAuctionsEntry[] = []
+    let results:IPlayerAuctionsEntry[] = []
 
     do {
       page++
+      log(`fetching PlayerAuctions page ${page}`)
       results = await Acquisition.getPage(page)
       
       //for each entry
@@ -60,13 +72,13 @@ export class PlayerAuctionsService {
 
         //early return if we're past the earliest date
         if (entry.date <= earliestDate) {
-          log(`completed PlayerAuctions import - reached earliest date`)
+          log(`completed PlayerAuctions sales import - reached earliest date`)
           return
         }
 
         //persist entry
         log(`persisting playerAuctions ${entry.buyer} ${entry.amount}g ${shortDate(entry.date)}`)
-        this.saleService.create({ provider: Provider.PLAYER_AUCTIONS, ...entry })
+        await this.saleService.create({ provider: Provider.PLAYER_AUCTIONS, ...entry })
       }
 
       //delay next request
@@ -75,7 +87,32 @@ export class PlayerAuctionsService {
       //continue while there are results
     } while (results.length)
 
-    log(`completed PlayerAuctions import - out of data`)
+    log(`completed PlayerAuctions sales import - out of data`)
+  }
+
+
+
+
+
+  async importQuote() {
+    //figure out the last recorded date
+    const now = new Date()
+    const date = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const lastDate = await this.quoteService.getLatestDate()
+
+    //if there won't be anything new, return
+    if (lastDate && lastDate >= date) {
+      log(`skipping PlayerAuctions quote import - no new data expected`)
+      return
+    }
+
+    //fetch
+    const quote = await Acquisition.getQuote()
+
+    //persist
+    await this.quoteService.create({ provider: Provider.PLAYER_AUCTIONS, date, ...quote })
+
+    log(`completed PlayerAuctions quote import - price: $${(quote.price / 100).toFixed(2)} offers: ${quote.offers}`)
   }
 
 }

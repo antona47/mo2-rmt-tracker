@@ -13,7 +13,6 @@ import { ICreateSale } from './sale.interfaces'
 @Injectable()
 export class SaleService {
   constructor(
-    // private readonly saleRepository: SaleRepository
     @InjectRepository(Sale)
     private saleRepository: Repository<Sale>
   ) {}

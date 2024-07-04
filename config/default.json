@@ -23,7 +23,7 @@
   },
 
   "data": {
-    "importCronPattern": "00 06 * * * *",
+    "importCronPattern": "00 00 11 * * *",
     "playerAuctions": {
       "trailDateBy": 1,
       "delayBetweenRequests": 1000,

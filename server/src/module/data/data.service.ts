@@ -29,7 +29,7 @@ export class DataService implements OnApplicationBootstrap {
 
 
   async import() {
-    await this.playerAuctionsService.scrape()
+    await this.playerAuctionsService.import()
   }
 
 
