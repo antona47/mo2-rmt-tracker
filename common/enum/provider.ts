@@ -1,5 +1,5 @@
 enum Provider {
-  PLAYER_AUCTIONS
+  NONE, PLAYER_AUCTIONS
 }
 
 

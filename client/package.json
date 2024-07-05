@@ -1,0 +1,30 @@
+{
+  "scripts": {
+    "envBuild": "node ./src/envBuild/index.mjs",
+    "build": "npm run envBuild && next build",
+
+    "start": "next start -p 3001",
+    "start:dev": "npm run envBuild && next dev -p 3001",
+
+    "pm2:start": "pm2 start npm --name frontend -- start --color",
+    "pm2:restart": "pm2 restart frontend",
+    "pm2:stop": "pm2 stop frontend",
+    "pm2:logs": "pm2 logs frontend --raw --lines 100"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.0.1",
+    "axios": "^1.6.7",
+    "next": "14.1.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "sass": "^1.71.1",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "postcss": "^8"
+  }
+}
