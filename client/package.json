@@ -2,10 +2,8 @@
   "scripts": {
     "envBuild": "node ./src/envBuild/index.mjs",
     "build": "npm run envBuild && next build",
-
     "start": "next start -p 3001",
     "start:dev": "npm run envBuild && next dev -p 3001",
-
     "pm2:start": "pm2 start npm --name frontend -- start --color",
     "pm2:restart": "pm2 restart frontend",
     "pm2:stop": "pm2 stop frontend",
@@ -14,7 +12,7 @@
   "dependencies": {
     "autoprefixer": "^10.0.1",
     "axios": "^1.6.7",
-    "next": "14.1.0",
+    "next": "^14.2.4",
     "react": "^18",
     "react-dom": "^18",
     "sass": "^1.71.1",

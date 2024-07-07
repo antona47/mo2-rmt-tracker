@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common'
 
 import { TypeOrmModule } from '@nestjs/typeorm'
 
+import { SaleController } from './sale.controller'
+
 import { SaleService } from './sale.service'
 
 import { Sale } from './sale.entity'
@@ -14,7 +16,9 @@ import { Sale } from './sale.entity'
   imports: [
     TypeOrmModule.forFeature([Sale])
   ],
-  controllers: [],
+  controllers: [
+    SaleController
+  ],
   providers: [
     SaleService
   ],
