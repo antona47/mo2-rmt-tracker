@@ -14,6 +14,14 @@ export const delay = async (ms:number) => {
 
 
 
+export const zeroedDate = (date:Date):Date => {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
+
+
+
+
+
 export const shortDate = (date:Date):string => {
   return `${zeroPad(date.getDate())}/${zeroPad(date.getMonth() + 1)}/${zeroPad(date.getFullYear())}`
 }

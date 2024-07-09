@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, Index, Unique } from 'typeorm'
 
 import Provider from '@@/enum/provider'
 
@@ -7,6 +7,7 @@ import Provider from '@@/enum/provider'
 
 
 @Entity("quotes")
+@Unique(["provider", "date"])
 export class Quote {
   @PrimaryGeneratedColumn()
   id: number

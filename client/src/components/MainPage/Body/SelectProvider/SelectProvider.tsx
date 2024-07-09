@@ -29,7 +29,7 @@ const SelectProvider = ({ value, setValue, options }:ISelectProvider) => {
 
   //return frame
   return (
-    <select value={value} onChange={onChange} className="min-w-40 bg-gray-900">
+    <select value={value} onChange={onChange} className="min-w-40 bg-gray-900 px-1 py-0.5">
       {options.map((option, i) => (
         <option key={i} value={option.value}>{option.label}</option>
       ))}

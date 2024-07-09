@@ -6,7 +6,7 @@ import MainPage from '@/components/MainPage'
 
 
 
-const Page = async () => {
+const Page = () => {
   return (
     <MainPage />
   )

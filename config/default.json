@@ -5,7 +5,8 @@
   },
 
   "client": {
-    "port": 3001
+    "port": 3001,
+    "api": "http://localhost:9001/api/v1"
   },
 
   "proxy": {
@@ -28,6 +29,7 @@
       "trailDateBy": 1,
       "delayBetweenRequests": 1000,
       "logs": false
-    }
+    },
+    "exportMaxDateRange": 31536000000
   }
 }

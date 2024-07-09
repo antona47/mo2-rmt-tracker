@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, FindOptionsWhere } from 'typeorm'
+import { Repository } from 'typeorm'
 
 import { Sale } from './sale.entity'
 
 import Provider from '@@/enum/provider'
-import { ISaleData } from '@@/interface/request/sales'
+import { ISalesData } from '@@/interface/request/sales'
 import { ICreateSale } from './sale.interfaces'
+
+import { populateWithZeroValueDays } from '@/utils/dataHydration'
+import { shortDate } from '@/utils/misc'
 
 
 
@@ -49,19 +52,29 @@ export class SaleService {
 
 
 
-  async getSales(provider:Provider):Promise<ISaleData[]> {
-    //compose where clause
-    const where:FindOptionsWhere<Sale> = {}
-    if (provider !== Provider.NONE) where.provider = provider
+  async getSales(provider:Provider, startDate:Date, endDate:Date):Promise<ISalesData[]> {
+    //build query
+    const query = this.saleRepository.createQueryBuilder("sales")
+    query.select(`SUM(amount)`, `amount`)
+    query.addSelect(`date`)
+    query.where(`date >= :startDate AND date <= :endDate`, { startDate, endDate })
+    query.groupBy(`date`)
+    query.orderBy(`date`, `ASC`)
+
+    //where clause
+    if (provider !== Provider.NONE) query.andWhere(`provider = :provider`, { provider })
 
     //fetch
-    const result = await this.saleRepository.find({ where })
+    const queryResult = await query.getRawMany()
+
+    //define output packer
+    const packer = (sale:any | null, date:Date) => ({
+      value: Number(sale?.amount || 0),
+      date: shortDate(date)
+    })
 
     //pack and return
-    return result.map((sale) => ({
-      value: sale.amount,
-      date: `${sale.date.getDate()}/${sale.date.getMonth()}/${sale.date.getFullYear()}`
-    }))
+    return populateWithZeroValueDays(startDate, endDate, queryResult, packer)
   }
 
 }
