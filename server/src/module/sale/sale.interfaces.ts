@@ -10,4 +10,6 @@ export interface ICreateSale {
   amount: number
   buyer: string
   date: Date
+  price: number
+  value: number
 }

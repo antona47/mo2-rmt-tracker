@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, FindOptionsWhere } from 'typeorm'
+import { Repository, FindOptionsWhere, MoreThanOrEqual } from 'typeorm'
 
 import { Quote } from './quote.entity'
 
@@ -42,6 +42,19 @@ export class QuoteService {
   async getLatestDate():Promise<Date> {
     const latest = await this.quoteRepository.createQueryBuilder().select(`MAX(date)`).getRawOne()
     return latest.max
+  }
+
+
+
+
+
+  async getPriceForDate(provider:Provider, date:Date):Promise<number> {
+    const result = await this.quoteRepository.findOne({
+      where: { provider, date: MoreThanOrEqual(date) },
+      order: { date: 'ASC' }
+    })
+
+    return result?.price || 0
   }
 
 

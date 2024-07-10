@@ -27,6 +27,7 @@ export const dbConfig:DataSourceOptions = {
   password: config.db.password,
   entities: ["dist/server/src/module/**/*.entity.js"],
   migrations: ["dist/server/src/db/migrations/*.js"],
+  logging: config.db.logging,
   synchronize: true,
   migrationsRun: true,
   dropSchema: env.isTEST

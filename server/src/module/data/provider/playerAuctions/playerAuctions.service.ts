@@ -76,9 +76,15 @@ export class PlayerAuctionsService {
           return
         }
 
+        //fetch quote for the given date
+        const price = await this.quoteService.getPriceForDate(Provider.PLAYER_AUCTIONS, entry.date)
+
+        //calculate the value of the gold on that day
+        const value = Math.round(price / 10000 * entry.amount)
+
         //persist entry
         log(`persisting playerAuctions ${entry.buyer} ${entry.amount}g ${shortDate(entry.date)}`)
-        await this.saleService.create({ provider: Provider.PLAYER_AUCTIONS, ...entry })
+        await this.saleService.create({ provider: Provider.PLAYER_AUCTIONS, price, value, ...entry })
       }
 
       //delay next request

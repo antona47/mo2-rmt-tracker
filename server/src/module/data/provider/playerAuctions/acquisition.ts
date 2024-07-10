@@ -64,7 +64,7 @@ export const getQuote = async():Promise<IPlayerAuctionsQuote> => {
 
   const result = resp.data["Result"]
   const offers = result["ActiveOffers"]
-  const price = result["LowestOfferPrice"]["USD"] * 10000 * 100 //per stack (10k) in cents
+  const price = Math.round(result["LowestOfferPrice"]["USD"] * 10000 * 100) //per stack (10k) in cents
 
   //if response does not contain useful data, sound alarm
   if (typeof offers !== 'number' || typeof price !== 'number') {

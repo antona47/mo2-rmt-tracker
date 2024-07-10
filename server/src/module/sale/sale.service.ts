@@ -34,6 +34,8 @@ export class SaleService {
     sale.amount = data.amount
     sale.comment = data.comment
     sale.date = data.date
+    sale.datePrice = data.price
+    sale.value = data.value
 
     //attempt insert
     return this.saleRepository.save(sale)
@@ -55,11 +57,12 @@ export class SaleService {
   async getSales(provider:Provider, startDate:Date, endDate:Date):Promise<ISalesData[]> {
     //build query
     const query = this.saleRepository.createQueryBuilder("sales")
-    query.select(`SUM(amount)`, `amount`)
-    query.addSelect(`date`)
-    query.where(`date >= :startDate AND date <= :endDate`, { startDate, endDate })
-    query.groupBy(`date`)
-    query.orderBy(`date`, `ASC`)
+      .select(`SUM(amount)`, `amount`)
+      .addSelect(`SUM(value)`, `value`)
+      .addSelect(`date`)
+      .where(`date >= :startDate AND date <= :endDate`, { startDate, endDate })
+      .groupBy(`date`)
+      .orderBy(`date`, `ASC`)
 
     //where clause
     if (provider !== Provider.NONE) query.andWhere(`provider = :provider`, { provider })
@@ -68,8 +71,9 @@ export class SaleService {
     const queryResult = await query.getRawMany()
 
     //define output packer
-    const packer = (sale:any | null, date:Date) => ({
-      value: Number(sale?.amount || 0),
+    const packer = (sale:any | null, date:Date):ISalesData => ({
+      amount: Number(sale?.amount || 0),
+      value: Number(sale?.value || 0),
       date: shortDate(date)
     })
 

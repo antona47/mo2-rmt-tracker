@@ -20,7 +20,7 @@ export class Sale {
   buyer: string
 
   @Column('int', { nullable: false })
-  amount: number
+  amount: number //gold
 
   @Column({ length: 100, nullable: false })
   comment: string
@@ -28,4 +28,10 @@ export class Sale {
   @Index()
   @Column('timestamptz', { nullable: false })
   date: Date
+
+  @Column('int', { nullable: false })
+  datePrice: number // USD / 10k gold in cents
+
+  @Column('int', { nullable: false })
+  value: number // USD in cents
 }
