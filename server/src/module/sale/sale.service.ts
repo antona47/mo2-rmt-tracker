@@ -47,7 +47,7 @@ export class SaleService {
 
   async getLatestDate():Promise<Date> {
     const latest = await this.saleRepository.createQueryBuilder().select(`MAX(date)`).getRawOne()
-    return latest.max
+    return latest?.max
   }
 
 
@@ -73,7 +73,7 @@ export class SaleService {
     //define output packer
     const packer = (sale:any | null, date:Date):ISalesData => ({
       amount: Number(sale?.amount || 0),
-      value: Number(sale?.value || 0),
+      value: Number(sale?.value / 100 || 0),
       date: shortDate(date)
     })
 

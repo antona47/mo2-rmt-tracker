@@ -6,7 +6,7 @@ import { Quote } from './quote.entity'
 
 import Provider from '@@/enum/provider'
 import { IQuotesData } from '@@/interface/request/quotes'
-import { ICreateQuote } from './quote.interfaces'
+import { ICreateQuote, IPriceForDateCache } from './quote.interfaces'
 
 
 
@@ -49,12 +49,32 @@ export class QuoteService {
 
 
   async getPriceForDate(provider:Provider, date:Date):Promise<number> {
+    //check cache for this provider and date
+    const cache = this.priceForDateCache
+    if (cache.provider === provider && cache.date.getTime() === date.getTime()) {
+      return cache.price
+    }
+
+    //ok, fetch it from db
     const result = await this.quoteRepository.findOne({
       where: { provider, date: MoreThanOrEqual(date) },
       order: { date: 'ASC' }
     })
 
-    return result?.price || 0
+    const price = result?.price || 0
+
+    //update cache
+    this.priceForDateCache = { provider, date, price }
+
+    //success (or not)
+    return price
+  }
+
+
+  private priceForDateCache:IPriceForDateCache = {
+    provider: Provider.NONE,
+    date: new Date(),
+    price: 0
   }
 
 

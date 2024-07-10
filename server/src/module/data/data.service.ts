@@ -2,6 +2,7 @@ import { Injectable, OnApplicationBootstrap } from '@nestjs/common'
 import { Cron } from '@nestjs/schedule'
 
 import { PlayerAuctionsService } from './provider/playerAuctions/playerAuctions.service'
+import { SaleService } from '@/module/sale/sale.service'
 
 import { config } from 'node-config-ts'
 import env from '@/utils/env'
@@ -13,7 +14,8 @@ import env from '@/utils/env'
 @Injectable()
 export class DataService implements OnApplicationBootstrap {
   constructor(
-    private readonly playerAuctionsService: PlayerAuctionsService
+    private readonly playerAuctionsService: PlayerAuctionsService,
+    private readonly saleService: SaleService
   ) {}
 
 
@@ -21,7 +23,11 @@ export class DataService implements OnApplicationBootstrap {
 
 
   async onApplicationBootstrap() {
-    await this.import()
+    //check if data is empty
+    const dataExists = await this.saleService.getLatestDate()
+
+    //if it's empty, import asap
+    if (!dataExists) await this.import()
   }
 
 

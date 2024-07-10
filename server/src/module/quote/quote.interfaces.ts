@@ -10,3 +10,13 @@ export interface ICreateQuote {
   offers: number
   date: Date
 }
+
+
+
+
+
+export interface IPriceForDateCache {
+  provider: Provider
+  date: Date
+  price: number
+}

@@ -3,6 +3,8 @@ import Provider from "@@/enum/provider"
 import SelectProvider from "./SelectProvider"
 import DatePicker from "react-datepicker"
 
+import "react-datepicker/dist/react-datepicker.css"
+
 
 
 
@@ -23,7 +25,7 @@ interface IFilters {
 const Filters = ({ provider, setProvider, startDate, setStartDate, endDate, setEndDate }:IFilters) => {
   const maxDateRange = Number(process.env.NEXT_PUBLIC_MAX_DATE_RANGE)
 
-  
+
   //controls
   const onStartDateChange = (date:Date | null) => {
     if (!date) return
