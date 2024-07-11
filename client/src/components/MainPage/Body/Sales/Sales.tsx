@@ -22,13 +22,17 @@ const Sales = ({ sales, Chart }:ISales) => {
   const [salesMode, setSalesMode] = useState<"gold"|"fiat">("gold")
 
   return (
-    <div className="mx-auto mt-12">
+    <div className="mx-auto mt-16">
+
       <div className="flex flex-row w-full my-2">
         <ModeButton value="gold" label="Gold" mode={salesMode} setMode={setSalesMode} />
         <ModeButton value="fiat" label="USD" mode={salesMode} setMode={setSalesMode} />
       </div>
-      <Chart mode={salesMode} sales={sales} />
+
+      <Chart mode={salesMode} data={sales} />
+
       <Totals sales={sales} />
+
     </div>
   )
 }

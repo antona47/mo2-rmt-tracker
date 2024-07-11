@@ -71,8 +71,6 @@ export class SaleService {
     //fetch
     const queryResult = await query.getRawMany()
 
-    console.log(queryResult)
-
     //define output packer
     const packer = (sale:any | null, date:Date):ISalesData => ({
       amount: Number(sale?.amount || 0),

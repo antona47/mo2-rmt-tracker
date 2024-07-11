@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, FindOptionsWhere, MoreThanOrEqual } from 'typeorm'
+import { Repository, MoreThanOrEqual } from 'typeorm'
+import { shortDate } from '@/utils/misc'
 
 import { Quote } from './quote.entity'
 
@@ -81,19 +82,37 @@ export class QuoteService {
 
 
 
-  async getQuotes(provider:Provider):Promise<IQuotesData[]> {
-    //compose where clause
-    const where:FindOptionsWhere<Quote> = {}
-    if (provider !== Provider.NONE) where.provider = provider
+  async getQuotes(provider:Provider, startDate:Date, endDate:Date):Promise<IQuotesData[]> {
+    const query = this.quoteRepository.createQueryBuilder("quotes")
+
+    //do we source all providers?
+    if (provider === Provider.NONE) {
+      query.select(`MIN(price)`, `price`)
+        .addSelect(`SUM(offers)`, `offers`)
+        .addSelect(`date`)
+        .where(`date >= :startDate AND date <= :endDate`, { startDate, endDate })
+        .groupBy(`date`)
+        .orderBy(`date`, `ASC`)
+    }
+
+    //get for specific provider
+    else {
+      query.select(`price`)
+        .addSelect(`offers`)
+        .addSelect(`date`)
+        .where(`provider = :provider`, { provider })
+        .andWhere(`date >= :startDate AND date <= :endDate`, { startDate, endDate })
+        .orderBy(`date`, `ASC`)
+    }
 
     //fetch
-    const result = await this.quoteRepository.find({ where })
+    const result = await query.getRawMany()
 
     //pack and return
     return result.map((quote) => ({
-      price: quote.price / 100,
-      offers: quote.offers,
-      date: `${quote.date.getDate()}/${quote.date.getMonth()}/${quote.date.getFullYear()}`
+      price: Number(quote.price / 100),
+      offers: Number(quote.offers),
+      date: shortDate(quote.date)
     }))
   }
 

@@ -1,5 +1,7 @@
 import { ISalesData } from "@@/interface/request/sales"
 
+import styles from './Totals.module.scss'
+
 
 
 
@@ -19,15 +21,19 @@ const Totals = ({ sales }:ITotals) => {
 
   return (
     <div className="flex flex-row justify-between mt-2 text-xl">
+
       <div className="px-4">
         {totalTransactions.toLocaleString('en')} transactions
       </div>
-      <div className="px-4" style={{ color: '#FFD700' }}>
+
+      <div className={`px-4 ${styles.goldText}`}>
         {totalGold.toLocaleString('en')} gold
       </div>
-      <div className="px-4" style={{ color: '#47B33D' }}>
-        {totalFiat.toLocaleString('en', { minimumFractionDigits: 2 })} USD
+
+      <div className={`px-4 ${styles.fiatText}`}>
+        ${totalFiat.toLocaleString('en', { minimumFractionDigits: 2 })} USD
       </div>
+
     </div>
   )
 }

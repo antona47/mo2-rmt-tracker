@@ -5,8 +5,10 @@
 
 
 :root {
-  --thin-border-color: #383C42;
-  --thin-underline-color: #bbb;
+  --gold-color: #FFD700;
+  --fiat-color: #47B33D;
+  --price-color: #F58B00;
+  --offers-color: #B837A9;
 }
 
 

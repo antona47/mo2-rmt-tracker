@@ -5,9 +5,13 @@ import Provider from "@@/enum/provider"
 
 import getSales from "@/request/data/sales"
 import { ISalesData } from "@@/interface/request/sales"
+import getQuotes from "@/request/data/quotes"
+import { IQuotesData } from '@@/interface/request/quotes'
 
 import Filters from './Filters'
 import Sales from './Sales'
+import Prices from './Prices'
+import Offers from './Offers'
 
 const Chart = dynamic(() => import('./Chart'))
 
@@ -25,6 +29,7 @@ const Body = () => {
 
   //data state
   const [sales, setSales] = useState<ISalesData[]>([])
+  const [quotes, setQuotes] = useState<IQuotesData[]>([])
 
 
   //fetch
@@ -32,6 +37,11 @@ const Body = () => {
     getSales({
       pkg: { provider, startDate, endDate },
       onSuccess: (resp) => setSales(resp.data)
+    })
+
+    getQuotes({
+      pkg: { provider, startDate, endDate },
+      onSuccess: (resp) => setQuotes(resp.data)
     })
   }, [provider, startDate, endDate])
 
@@ -47,6 +57,10 @@ const Body = () => {
       />
 
       <Sales sales={sales} Chart={Chart} />
+
+      <Prices quotes={quotes} Chart={Chart} />
+
+      <Offers quotes={quotes} Chart={Chart} />
 
     </div>
   )
