@@ -7,7 +7,7 @@ import getSales from "@/request/data/sales"
 import { ISalesData } from "@@/interface/request/sales"
 
 import Filters from './Filters'
-import ModeButton from './ModeButton'
+import Sales from './Sales'
 
 const Chart = dynamic(() => import('./Chart'))
 
@@ -22,8 +22,6 @@ const Body = () => {
   const now = new Date()
   const [startDate, setStartDate] = useState(new Date(now.getFullYear(), now.getMonth() - 3, now.getDate()))
   const [endDate, setEndDate] = useState(new Date(now.getFullYear(), now.getMonth(), now.getDate()))
-
-  const [salesMode, setSalesMode] = useState<"gold" | "fiat">("gold")
 
   //data state
   const [sales, setSales] = useState<ISalesData[]>([])
@@ -48,13 +46,7 @@ const Body = () => {
         endDate={endDate} setEndDate={setEndDate}
       />
 
-      <div className="mx-auto pt-8">
-        <div className="flex flex-row w-full my-2">
-          <ModeButton value="gold" label="Gold" mode={salesMode} setMode={setSalesMode} />
-          <ModeButton value="fiat" label="USD" mode={salesMode} setMode={setSalesMode} />
-        </div>
-        <Chart mode={salesMode} sales={sales} />
-      </div>
+      <Sales sales={sales} Chart={Chart} />
 
     </div>
   )

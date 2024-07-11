@@ -17,6 +17,7 @@ export interface ISalesRequest {
 export interface ISalesData {
   amount: number
   value: number
+  count: number
   date: string
 }
 

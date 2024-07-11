@@ -59,6 +59,7 @@ export class SaleService {
     const query = this.saleRepository.createQueryBuilder("sales")
       .select(`SUM(amount)`, `amount`)
       .addSelect(`SUM(value)`, `value`)
+      .addSelect(`COUNT(id)`, `count`)
       .addSelect(`date`)
       .where(`date >= :startDate AND date <= :endDate`, { startDate, endDate })
       .groupBy(`date`)
@@ -70,10 +71,13 @@ export class SaleService {
     //fetch
     const queryResult = await query.getRawMany()
 
+    console.log(queryResult)
+
     //define output packer
     const packer = (sale:any | null, date:Date):ISalesData => ({
       amount: Number(sale?.amount || 0),
       value: Number(sale?.value / 100 || 0),
+      count: Number(sale?.count || 0),
       date: shortDate(date)
     })
 
