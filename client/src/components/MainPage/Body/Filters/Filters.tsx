@@ -46,7 +46,7 @@ const Filters = ({ provider, setProvider, startDate, setStartDate, endDate, setE
 
   //return frame
   return (
-    <div className="flex flex-row w-full justify-between">
+    <div className="flex flex-row w-full justify-between border-b-2 border-slate-900 pb-2">
       <div>
         <SelectProvider value={provider} setValue={setProvider} options={[
           { value: Provider.NONE, label: "All" },

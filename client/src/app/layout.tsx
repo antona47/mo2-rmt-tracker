@@ -13,8 +13,19 @@ const inter = Inter({ subsets: ["latin"] })
 
 
 export const metadata: Metadata = {
-  title: "MO2 RMT Tracker",
-  description: "Help Henrik understand why sub tokens are the way.",
+  title: "MO2 Watch",
+  description: "Tracking RMT in Mortal Online 2.",
+  openGraph: {
+    title: "MO2 Watch",
+    description: "Tracking RMT in Mortal Online 2.",
+    url: process.env.NEXT_PUBLIC_SELF,
+    images: [{
+      url: `${process.env.NEXT_PUBLIC_SELF}/opengraph-image.png`,
+      width: 217,
+      height: 267
+    }],
+    type: "website"
+  }
 }
 
 

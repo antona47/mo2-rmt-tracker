@@ -6,7 +6,8 @@
 
   "client": {
     "port": 3001,
-    "api": "http://localhost:9001/api/v1"
+    "api": "http://localhost:9001/api/v1",
+    "self": "http://localhost:9001"
   },
 
   "proxy": {
@@ -17,9 +18,9 @@
   "db": {
     "host": "localhost",
     "port": 5432,
-    "database": "mo2rmt",
-    "username": "mo2rmt",
-    "password": "mo2rmt",
+    "database": "mo2watch",
+    "username": "mo2watch",
+    "password": "mo2watch",
     "logging": false
   },
 
