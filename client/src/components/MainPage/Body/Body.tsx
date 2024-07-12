@@ -48,7 +48,7 @@ const Body = () => {
 
   //return frame
   return (
-    <div className="flex flex-col w-full max-w-5xl mx-auto justify-center relative py-16 px-2">
+    <div className="flex flex-col w-full max-w-5xl mx-auto justify-center relative pt-4 pb-16 px-2">
 
       <Filters
         provider={provider} setProvider={setProvider}

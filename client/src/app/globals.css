@@ -5,10 +5,11 @@
 
 
 :root {
+  --transactions-color: #e6609f;
   --gold-color: #FFD700;
   --fiat-color: #47B33D;
   --price-color: #F58B00;
-  --offers-color: #B837A9;
+  --offers-color: #d465d6;
 }
 
 
