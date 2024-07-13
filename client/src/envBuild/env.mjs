@@ -12,6 +12,7 @@ const data = [
   `# mo2 watch`,
   `NEXT_PUBLIC_API_PATH = "${config.client.api}"`,
   `NEXT_PUBLIC_SELF = "${config.client.self}"`,
+  `NEXT_PUBLIC_GA_MEASUREMENT_ID = "${config.client.ga_id}"`,
   ``,
   `# data`,
   `NEXT_PUBLIC_MAX_DATE_RANGE = ${config.data.exportMaxDateRange}`

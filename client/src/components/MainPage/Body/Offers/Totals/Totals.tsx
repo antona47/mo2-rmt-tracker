@@ -1,6 +1,6 @@
 import { IQuotesData } from "@@/interface/request/quotes"
 
-import styles from './Totals.module.scss'
+import style from './Totals.module.scss'
 
 
 
@@ -20,25 +20,25 @@ const Totals = ({ quotes }:ITotals) => {
   const avgOffers = quotes.reduce((total, day) => total + day.offers, 0) / quotes.length
 
   return (
-    <div className="flex flex-row justify-between mt-2 text-xl">
+    <div className={`flex flex-row justify-between mt-2 text-xl ${style.fadeIn}`}>
 
       <div className="px-4">
         Min:&nbsp;
-        <span className={styles.offersText}>
+        <span className={style.offersText}>
           {minOffers.toLocaleString('en')}
         </span>
       </div>
 
       <div className="px-4">
         Max:&nbsp;
-        <span className={styles.offersText}>
+        <span className={style.offersText}>
           {maxOffers.toLocaleString('en')}
         </span>
       </div>
 
       <div className="px-4">
         Average:&nbsp;
-        <span className={styles.offersText}>
+        <span className={style.offersText}>
           {avgOffers.toLocaleString('en', { maximumFractionDigits: 0 })}
         </span>
       </div>

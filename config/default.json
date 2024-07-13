@@ -7,7 +7,8 @@
   "client": {
     "port": 3001,
     "api": "http://localhost:9001/api/v1",
-    "self": "http://localhost:9001"
+    "self": "http://localhost:9001",
+    "ga_id": ""
   },
 
   "proxy": {

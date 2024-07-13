@@ -4,6 +4,7 @@ import { ISalesData } from '@@/interface/request/sales'
 
 import ModeButton from './ModeButton'
 import Totals from './Totals'
+import If from '@/components/abstract/If'
 
 
 
@@ -29,9 +30,16 @@ const Sales = ({ sales, Chart }:ISales) => {
         <ModeButton value="fiat" label="USD" mode={salesMode} setMode={setSalesMode} />
       </div>
 
-      <Chart mode={salesMode} data={sales} />
+      <If condition={sales.length}>
+        <Chart mode={salesMode} data={sales} />
+        <Totals sales={sales} />
+      </If>
 
-      <Totals sales={sales} />
+      <If condition={!sales.length}>
+        <div className="w-full text-center my-8">
+          Loading...
+        </div>
+      </If>
 
     </div>
   )

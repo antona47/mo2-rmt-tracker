@@ -1,5 +1,7 @@
 'use client'
 
+import { GoogleAnalytics } from 'nextjs-google-analytics'
+
 import MainPage from '@/components/MainPage'
 
 
@@ -8,7 +10,10 @@ import MainPage from '@/components/MainPage'
 
 const Page = () => {
   return (
-    <MainPage />
+    <>
+      <GoogleAnalytics trackPageViews />
+      <MainPage />
+    </>
   )
 }
 

@@ -1,6 +1,7 @@
 import { IQuotesData } from '@@/interface/request/quotes'
 
 import Totals from './Totals'
+import If from '@/components/abstract/If'
 
 
 
@@ -25,9 +26,16 @@ const Prices = ({ quotes, Chart }:IPrices) => {
         </p>
       </div>
 
-      <Chart mode="price" data={quotes} />
+      <If condition={quotes.length}>
+        <Chart mode="price" data={quotes} />
+        <Totals quotes={quotes} />
+      </If>
 
-      <Totals quotes={quotes} />
+      <If condition={!quotes.length}>
+        <div className="w-full text-center my-8">
+          Loading...
+        </div>
+      </If>
 
     </div>
   )
