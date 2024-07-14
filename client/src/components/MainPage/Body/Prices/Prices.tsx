@@ -1,5 +1,6 @@
 import { IQuotesData } from '@@/interface/request/quotes'
 
+import ModeButton from '../common/ModeButton'
 import Totals from './Totals'
 import If from '@/components/abstract/If'
 
@@ -9,6 +10,7 @@ import If from '@/components/abstract/If'
 
 interface IPrices {
   quotes: IQuotesData[]
+  loading: boolean
   Chart: any
 }
 
@@ -16,26 +18,39 @@ interface IPrices {
 
 
 
-const Prices = ({ quotes, Chart }:IPrices) => {
+const Prices = ({ quotes, loading, Chart }:IPrices) => {
   return (
-    <div className="mx-auto mt-16">
+    <div className="w-full mt-16">
 
       <div className="flex flex-row w-full my-2">
-        <p className='min-w-32 px-4 text-center border border-slate-900 bg-slate-900'>
-          Price
-        </p>
+        <ModeButton value="price" label="Price" mode={"price"} setMode={() => {}} />
       </div>
 
-      <If condition={quotes.length}>
-        <Chart mode="price" data={quotes} />
-        <Totals quotes={quotes} />
-      </If>
+      <div className="flex w-full h-96 justify-center">
 
-      <If condition={!quotes.length}>
-        <div className="w-full text-center my-8">
-          Loading...
-        </div>
-      </If>
+        <If condition={loading}>
+          <span className="self-center">
+            Loading...
+          </span>
+        </If>
+
+        <If condition={!loading}>
+
+          <If condition={quotes.length}>
+            <Chart mode="price" data={quotes} />
+          </If>
+
+          <If condition={!quotes.length}>
+            <span className="self-center">
+              [no data]
+            </span>
+          </If>
+
+        </If>
+
+      </div>
+
+      <Totals quotes={quotes} />
 
     </div>
   )

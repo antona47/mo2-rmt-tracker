@@ -1,8 +1,8 @@
 interface IModeButton {
-  value: "gold"|"fiat"
+  value: "gold"|"fiat"|"price"|"offers"
   label: string
   mode: string
-  setMode: (a:"gold"|"fiat") => void
+  setMode: (a:"gold"|"fiat"|"price"|"offers") => void
 }
 
 

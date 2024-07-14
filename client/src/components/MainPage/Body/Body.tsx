@@ -13,7 +13,7 @@ import Sales from './Sales'
 import Prices from './Prices'
 import Offers from './Offers'
 
-const Chart = dynamic(() => import('./Chart'))
+const Chart = dynamic(() => import('./common/Chart'))
 
 
 
@@ -31,17 +31,29 @@ const Body = () => {
   const [sales, setSales] = useState<ISalesData[]>([])
   const [quotes, setQuotes] = useState<IQuotesData[]>([])
 
+  const [loadingSales, setLoadingSales] = useState(true)
+  const [loadingQuotes, setLoadingQuotes] = useState(true)
+
 
   //fetch
   useEffect(() => {
+    setLoadingSales(true)
+    setLoadingQuotes(true)
+
     getSales({
       pkg: { provider, startDate, endDate },
-      onSuccess: (resp) => setSales(resp.data)
+      onSuccess: (resp) => {
+        setSales(resp.data)
+        setLoadingSales(false)
+      }
     })
 
     getQuotes({
       pkg: { provider, startDate, endDate },
-      onSuccess: (resp) => setQuotes(resp.data)
+      onSuccess: (resp) => {
+        setQuotes(resp.data)
+        setLoadingQuotes(false)
+      }
     })
   }, [provider, startDate, endDate])
 
@@ -56,11 +68,15 @@ const Body = () => {
         endDate={endDate} setEndDate={setEndDate}
       />
 
-      <Sales sales={sales} Chart={Chart} />
+      <div className="w-full max-w-4xl m-auto">
 
-      <Prices quotes={quotes} Chart={Chart} />
+        <Sales sales={sales} loading={loadingSales} Chart={Chart} />
 
-      <Offers quotes={quotes} Chart={Chart} />
+        <Prices quotes={quotes} loading={loadingQuotes} Chart={Chart} />
+
+        <Offers quotes={quotes} loading={loadingQuotes} Chart={Chart} />
+
+      </div>
 
     </div>
   )
