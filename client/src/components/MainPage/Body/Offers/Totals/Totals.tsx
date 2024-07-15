@@ -53,7 +53,7 @@ const Totals = ({ quotes }:ITotals) => {
       </div>
 
       <div className="px-4">
-        unique sellers
+        (unique sellers)
       </div>
 
     </div>

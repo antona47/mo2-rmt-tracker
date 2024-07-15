@@ -1,10 +1,10 @@
-import Tooltip from "../Tooltip"
+import Tooltip from "@/components/MainPage/Body/common/Chart/Tooltip"
 
 
 
 
 
-interface IGoldTooltip {
+interface IOffersTooltip {
   active?: boolean
   payload?: any[]
   label?: string
@@ -14,7 +14,7 @@ interface IGoldTooltip {
 
 
 
-const GoldTooltip = ({ active, payload, label }:IGoldTooltip) => {
+const OffersTooltip = ({ active, payload, label }:IOffersTooltip) => {
   if (active && payload && payload.length) {
     const data = payload[0]
 
@@ -24,7 +24,7 @@ const GoldTooltip = ({ active, payload, label }:IGoldTooltip) => {
           {label}
         </p>
         <p style={{ color: data.stroke }}>
-          {data.payload.amount.toLocaleString('en')}g
+          {data.payload.offers}
         </p>
       </Tooltip>
     )
@@ -37,4 +37,4 @@ const GoldTooltip = ({ active, payload, label }:IGoldTooltip) => {
 
 
 
-export default GoldTooltip
+export default OffersTooltip
