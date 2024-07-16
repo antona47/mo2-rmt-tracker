@@ -1,13 +1,18 @@
 {
   "server": {
     "host": "0.0.0.0",
-    "port": 8081
+    "port": 8081,
+    "userDataPath": "../../mo2-watch-data"
   },
 
   "client": {
     "port": 3001,
     "api": "http://localhost:9001/api/v1",
-    "self": "http://localhost:9001",
+    "internal": {
+      "api": "http://localhost:8081/internal",
+      "secret": "qwer2134"
+    },
+    "opgLink": "http://localhost:9001",
     "ga_id": ""
   },
 
@@ -23,6 +28,23 @@
     "username": "mo2watch",
     "password": "mo2watch",
     "logging": false
+  },
+
+  "auth": {
+    "tokenLength": 64,
+    "sessionValidDuration": 31104000000,
+    "sessionCleanupCronPattern": "00 * * * * *",
+    "cookie_is_secure": true,
+    "updateLastLoginAfter": 86400000
+  },
+
+  "discord": {
+    "appId": "",
+    "appKey": "",
+    "scope": "identify",
+    "avatarSize": 100,
+    "redirectPath": "http://localhost:9001/oauth/discord",
+    "successUrl": "http://localhost:9001/"
   },
 
   "data": {

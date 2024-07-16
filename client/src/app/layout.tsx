@@ -18,9 +18,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: "MO2 Watch",
     description: "Tracking RMT in Mortal Online 2.",
-    url: process.env.NEXT_PUBLIC_SELF,
+    url: process.env.NEXT_PUBLIC_OPG_LINK,
     images: [{
-      url: `${process.env.NEXT_PUBLIC_SELF}/opengraph-image.png`,
+      url: `${process.env.NEXT_PUBLIC_OPG_LINK}/opengraph-image.png`,
       width: 217,
       height: 267
     }],

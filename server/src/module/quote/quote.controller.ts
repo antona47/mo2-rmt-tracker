@@ -3,9 +3,9 @@ import { Controller, Post, Body } from '@nestjs/common'
 import { QuoteService } from './quote.service'
 
 import { QuotesResponseDTO, QuotesRequestDTO } from './quote.dto'
-import { ErrorResponse } from '@/interfaces/response'
+import { ErrorResponse } from '@/interface/response'
 
-import { zeroedDate } from '@/utils/misc'
+import { zeroedDate } from '@/util/misc'
 import { config } from 'node-config-ts'
 
 

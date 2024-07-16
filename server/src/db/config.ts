@@ -2,7 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { DataSourceOptions } from 'typeorm'
 import { compareConfigWith } from './utils'
 import { config } from 'node-config-ts'
-import env from '@/utils/env'
+import env from '@/util/env'
 
 
 

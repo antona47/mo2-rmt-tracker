@@ -1,8 +1,8 @@
 import { IsDate, IsEnum } from 'class-validator'
 import { Transform, Type } from 'class-transformer'
-import { zeroedDate } from '@/utils/misc'
+import { zeroedDate } from '@/util/misc'
 
-import { GenericResponse } from '@/interfaces/response'
+import { GenericResponse } from '@/interface/response'
 
 import Provider from '@@/enum/provider'
 import { ISalesData, ISalesRequest, ISalesResponse } from '@@/interface/request/sales'

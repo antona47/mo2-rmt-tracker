@@ -8,8 +8,8 @@ import Provider from '@@/enum/provider'
 import * as Acquisition from './acquisition'
 import { IPlayerAuctionsEntry } from './interfaces'
 
-import env from '@/utils/env'
-import { delay, shortDate } from '@/utils/misc'
+import env from '@/util/env'
+import { delay, shortDate } from '@/util/misc'
 import { config } from 'node-config-ts'
 
 

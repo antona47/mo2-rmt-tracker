@@ -5,7 +5,7 @@ import { PlayerAuctionsService } from './provider/playerAuctions/playerAuctions.
 import { SaleService } from '@/module/sale/sale.service'
 
 import { config } from 'node-config-ts'
-import env from '@/utils/env'
+import env from '@/util/env'
 
 
 

@@ -8,8 +8,8 @@ import Provider from '@@/enum/provider'
 import { ISalesData } from '@@/interface/request/sales'
 import { ICreateSale } from './sale.interfaces'
 
-import { populateWithZeroValueDays } from '@/utils/dataHydration'
-import { shortDate } from '@/utils/misc'
+import { populateWithZeroValueDays } from '@/util/dataHydration'
+import { shortDate } from '@/util/misc'
 
 
 

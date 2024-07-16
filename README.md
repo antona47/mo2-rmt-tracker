@@ -38,6 +38,7 @@ config/env/test.json
 
 # Client
 
+In the /client/ folder
 ```bash
 # development
 $ npm install
@@ -85,6 +86,7 @@ $ npm run pm2:logs
 
 # Server
 
+In the /server/ folder
 ```bash
 # development
 $ npm install
@@ -150,6 +152,7 @@ $ npm run test:cov
 
 This component is meant only for assistance in development. It proxies requests on /api to the nest backend server, and all other requests to the next frontend server. In production environments this job should be handled by nginx (or equivalent).
 
+In the /proxy/ folder
 ```bash
 # development
 $ npm install

@@ -1,4 +1,22 @@
+import env from './env'
+import { config } from 'node-config-ts'
 
+
+
+
+
+export const awaitIfTest = async (fn:Function) => {
+  if (env.isTEST) await fn()
+  else fn()
+}
+
+
+
+
+
+export const freshSessionTerm = ():number => {
+  return Date.now() + config.auth.sessionValidDuration
+}
 
 
 

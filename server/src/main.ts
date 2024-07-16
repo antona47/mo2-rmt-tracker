@@ -1,4 +1,4 @@
-import env from '@/utils/env'
+import env from '@/util/env'
 import { config } from 'node-config-ts'
 
 import { NestFactory } from '@nestjs/core'
