@@ -1,6 +1,4 @@
-'use client'
-
-import { GoogleAnalytics } from 'nextjs-google-analytics'
+import getSession from '@/request/session/getSession'
 
 import MainPage from '@/components/MainPage'
 
@@ -8,12 +6,11 @@ import MainPage from '@/components/MainPage'
 
 
 
-const Page = () => {
+const Page = async () => {
+  const session = await getSession()
+
   return (
-    <>
-      <GoogleAnalytics trackPageViews />
-      <MainPage />
-    </>
+    <MainPage sessionData={session} />
   )
 }
 

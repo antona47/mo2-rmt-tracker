@@ -4,6 +4,7 @@ import { config } from 'node-config-ts'
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 
+import * as cookieParser from 'cookie-parser'
 import { ValidationPipe, VersioningType } from '@nestjs/common'
 
 import { AppModule } from './app.module'
@@ -20,13 +21,18 @@ async function init() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
   //global prefix
-  app.setGlobalPrefix('api')
+  app.setGlobalPrefix('api', {
+    exclude: ['/internal/getSession', '/internal/oauth2/discord']
+  })
 
   //versioning
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1'
   })
+
+  //register cookies
+  app.use(cookieParser())
 
   //register validator
   app.useGlobalPipes(new ValidationPipe({

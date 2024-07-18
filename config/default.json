@@ -44,7 +44,8 @@
     "scope": "identify",
     "avatarSize": 100,
     "redirectPath": "http://localhost:9001/oauth/discord",
-    "successUrl": "http://localhost:9001/"
+    "successUrl": "http://localhost:9001/private",
+    "failUrl": "http://localhost:9001/"
   },
 
   "data": {

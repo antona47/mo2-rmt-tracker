@@ -10,6 +10,7 @@ config/env/*
 
 # OS
 .DS_Store
+*.bat
 
 # IDEs and editors
 /.idea
