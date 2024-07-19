@@ -21,15 +21,15 @@ export class User {
   @Column({ length: 20, nullable: false })
   name: string
 
-  @Column('boolean', { nullable: false })
+  @Column('boolean', { nullable: false, default: false })
   hasAccess: boolean
 
-  @Column('boolean', { nullable: false })
+  @Column('boolean', { nullable: false, default: false })
   isAdmin: boolean
 
-  @Column('bigint', { nullable: false })
-  first_login: number
+  @Column('timestamptz', { nullable: false, default: "NOW()" })
+  first_login: Date
 
-  @Column('bigint', { nullable: false })
-  last_login: number
+  @Column('timestamptz', { nullable: false })
+  last_login: Date
 }

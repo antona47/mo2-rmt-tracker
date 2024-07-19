@@ -1,4 +1,4 @@
-import getSession from '@/request/session/getSession'
+import getSession from '@/request/internal/getSession'
 
 import MainPage from '@/components/MainPage'
 

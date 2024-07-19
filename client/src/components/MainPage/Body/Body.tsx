@@ -8,7 +8,7 @@ import { ISalesData } from "@@/interface/request/sales"
 import getQuotes from "@/request/data/quotes"
 import { IQuotesData } from '@@/interface/request/quotes'
 
-import Filters from './Filters'
+import Filters from '@/components/common/Filters'
 import Sales from './Sales'
 import Prices from './Prices'
 import Offers from './Offers'

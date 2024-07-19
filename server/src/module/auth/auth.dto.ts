@@ -1,5 +1,6 @@
 import { IsBoolean, IsOptional } from 'class-validator'
 import { GenericResponse } from '@/interface/response'
+import { ISessionResponse } from '@@/interface/request/session'
 
 
 
@@ -11,10 +12,12 @@ export class GetSessionRequestDTO {
   admin?: boolean
 }
 
-export class GetSessionResponseDTO extends GenericResponse {
+export class GetSessionResponseDTO extends GenericResponse implements ISessionResponse {
   id: string
   name: string
   csrf_token: string
+  hasAccess: boolean
+  isAdmin: boolean
 }
 
 

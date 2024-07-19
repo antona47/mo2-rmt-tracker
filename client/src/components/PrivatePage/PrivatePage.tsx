@@ -5,9 +5,8 @@ import { GoogleAnalytics } from 'nextjs-google-analytics'
 import { ISessionResponse } from '@@/interface/request/session'
 import { sessionContext, sessionConstructor } from '@/context/session.context'
 
-import styles from './MainPage.module.scss'
+import styles from './PrivatePage.module.scss'
 
-import Announcement from './Announcement'
 import Header from '@/components/common/Header'
 import Body from './Body'
 
@@ -15,15 +14,15 @@ import Body from './Body'
 
 
 
-interface IMainPage {
-  sessionData: ISessionResponse | null
+interface IPrivatePage {
+  sessionData: ISessionResponse
 }
 
 
 
 
 
-const MainPage = ({ sessionData }:IMainPage) => {
+const PrivatePage = ({ sessionData }:IPrivatePage) => {
   //initialize session context
   const session = sessionConstructor(sessionData)
 
@@ -34,8 +33,7 @@ const MainPage = ({ sessionData }:IMainPage) => {
       <GoogleAnalytics trackPageViews />
 
       <sessionContext.Provider value={session}>
-        <Announcement />
-        <Header/>
+        <Header isPrivate />
         <Body/>
       </sessionContext.Provider>
 
@@ -47,4 +45,4 @@ const MainPage = ({ sessionData }:IMainPage) => {
 
 
 
-export default MainPage
+export default PrivatePage

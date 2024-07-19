@@ -18,6 +18,6 @@ export class Session {
   @Column({ length: 64, nullable: false })
   csrf_token: string
 
-  @Column('bigint', { nullable: false })
-  valid_until: number
+  @Column('timestamptz', { nullable: false })
+  valid_until: Date
 }

@@ -33,7 +33,7 @@
   "auth": {
     "tokenLength": 64,
     "sessionValidDuration": 31104000000,
-    "sessionCleanupCronPattern": "00 * * * * *",
+    "sessionCleanupCronPattern": "00 00 00 * * *",
     "cookie_is_secure": true,
     "updateLastLoginAfter": 86400000
   },

@@ -14,8 +14,8 @@ export const awaitIfTest = async (fn:Function) => {
 
 
 
-export const freshSessionTerm = ():number => {
-  return Date.now() + config.auth.sessionValidDuration
+export const freshSessionTerm = ():Date => {
+  return new Date(Date.now() + config.auth.sessionValidDuration)
 }
 
 

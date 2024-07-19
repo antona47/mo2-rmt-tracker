@@ -35,7 +35,7 @@ export class AuthService {
   async session(user:User):Promise<Session> {
     //check for existing session
     let session = await this.sessionRepository.findOne({
-      where: { user_id: user.id, valid_until: MoreThan(Date.now()) }
+      where: { user_id: user.id, valid_until: MoreThan(new Date()) }
     })
 
     //if exists, renew and return
@@ -68,7 +68,7 @@ export class AuthService {
     if (!session_token) return false
 
     //find session
-    const session = await this.sessionRepository.findOne({ where: { session_token, valid_until: MoreThan(Date.now()) } })
+    const session = await this.sessionRepository.findOne({ where: { session_token, valid_until: MoreThan(new Date()) } })
     if (!session) return false
 
     //check csrf?
@@ -83,8 +83,7 @@ export class AuthService {
 
     //should this user be an admin?
     const shouldBeAdmin = request.body.admin //set by admin auth guard if not otherwise requested
-    const isAdmin = false //config.auth.admins.includes(user.discord_id) //TODO: stop this
-    if (shouldBeAdmin && !isAdmin) return false
+    if (shouldBeAdmin && !user.isAdmin) return false
 
     //extend session (don't wait unless in test mode)
     await awaitIfTest(() => {
@@ -94,7 +93,7 @@ export class AuthService {
     //update last login if appropriate
     if (Number(user.last_login) < Date.now() - config.auth.updateLastLoginAfter) {
       await awaitIfTest(() => {
-        user.last_login = Date.now()
+        user.last_login = new Date()
         return this.userService.update(user)
       })
     }
@@ -110,7 +109,9 @@ export class AuthService {
 
 
   async endSession(request:AuthRequest):Promise<void> {
-    const sessionId = request.session.id
+    const sessionId = request.session?.id
+    if (!sessionId) return
+
     await this.sessionRepository.delete({ id: sessionId })
   }
 
@@ -122,7 +123,7 @@ export class AuthService {
   private async SessionCleanup() {
     if (env.isTEST) return
 
-    await this.sessionRepository.delete({ valid_until: LessThan(Date.now()) })
+    await this.sessionRepository.delete({ valid_until: LessThan(new Date()) })
   }
 
 }

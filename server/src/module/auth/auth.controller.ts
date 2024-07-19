@@ -5,7 +5,7 @@ import { Response } from 'express'
 import { AuthService } from './auth.service'
 
 import { InternalGuard } from '@/guard/internal.guard'
-import { AuthGuard } from '@/guard/auth.guard'
+import { AuthGuard, OptionalAuthGuard } from '@/guard/auth.guard'
 
 import {
   GetSessionRequestDTO, GetSessionResponseDTO,
@@ -42,7 +42,9 @@ export class AuthController {
       status: 1,
       id: req.user.discord_id,
       name: req.user.name,
-      csrf_token: req.session.csrf_token
+      csrf_token: req.session.csrf_token,
+      hasAccess: req.user.hasAccess,
+      isAdmin: req.user.isAdmin
     }
   }
 
@@ -51,7 +53,7 @@ export class AuthController {
 
 
   @Get('/logout')
-  @UseGuards(AuthGuard)
+  @UseGuards(OptionalAuthGuard)
   async logout(@Req() req:AuthRequest, @Res({ passthrough: true }) res:Response):Promise<LogoutResponseDTO> {
     //delete session record
     await this.authService.endSession(req)
