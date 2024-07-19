@@ -28,7 +28,7 @@ export class UserService {
     user.discord_username = discord_username
     user.discord_access_token = access_token
     user.name = name
-    user.accessGranted = false
+    user.hasAccess = false
     user.isAdmin = false
     user.first_login = Date.now()
     user.last_login = Date.now()
