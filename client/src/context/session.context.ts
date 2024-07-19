@@ -1,24 +1,14 @@
 import { createContext } from 'react'
 
+import { ISessionResponse } from '@@/interface/request/session'
+
 
 
 
 
 //INTERFACES
 
-export interface ISessionData {
-  status: number
-  id: string
-  name: string
-  csrf_token: string
-}
-
-export interface ISession {
-  status: number
-  id: string
-  name: string
-  csrf_token: string
-}
+export interface ISession extends ISessionResponse {}
 
 
 
@@ -26,20 +16,13 @@ export interface ISession {
 
 //DEFAULTS
 
-const set = () => {} //dummy function
-
 const sessionDefaults:ISession = {
   status: 0,
   id: '',
   name: '',
-  csrf_token: ''
-}
-
-export const sessionDataDefaults:ISessionData = {
-  status: 0,
-  id: '',
-  name: '',
-  csrf_token: ''
+  csrf_token: '',
+  hasAccess: false,
+  isAdmin: false
 }
 
 
@@ -53,10 +36,15 @@ export const sessionContext = createContext(sessionDefaults)
 
 
 export const sessionConstructor = (
-  session: ISessionData
-):ISession => ({
-  status: session.status,
-  id: session.id,
-  name: session.name,
-  csrf_token: session.csrf_token
-})
+  session: ISessionResponse | null
+):ISession => {
+  session = session || sessionDefaults
+  return {
+    status: session.status,
+    id: session.id,
+    name: session.name,
+    csrf_token: session.csrf_token,
+    hasAccess: session.hasAccess,
+    isAdmin: session.isAdmin
+  }
+}

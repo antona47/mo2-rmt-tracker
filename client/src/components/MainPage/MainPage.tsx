@@ -2,7 +2,8 @@
 
 import { GoogleAnalytics } from 'nextjs-google-analytics'
 
-import { sessionContext, sessionDataDefaults, ISessionData, sessionConstructor } from '@/context/session.context'
+import { ISessionResponse } from '@@/interface/request/session'
+import { sessionContext, sessionConstructor } from '@/context/session.context'
 
 import styles from './MainPage.module.scss'
 
@@ -15,7 +16,7 @@ import Body from './Body'
 
 
 interface IMainPage {
-  sessionData: ISessionData | null
+  sessionData: ISessionResponse | null
 }
 
 
@@ -24,7 +25,7 @@ interface IMainPage {
 
 const MainPage = ({ sessionData }:IMainPage) => {
   //initialize session context
-  const session = sessionConstructor(sessionData || sessionDataDefaults)
+  const session = sessionConstructor(sessionData)
 
 
   //return frame

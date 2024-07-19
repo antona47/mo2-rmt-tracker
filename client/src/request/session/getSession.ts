@@ -1,12 +1,12 @@
 import { cookies } from 'next/headers'
 import axios from 'axios'
-import { ISessionData } from '@/context/session.context'
+import { ISessionResponse } from '@@/interface/request/session'
 
 
 
 
 
-const getSession = async (admin?:boolean):Promise<ISessionData | null> => {
+const getSession = async (admin?:boolean):Promise<ISessionResponse | null> => {
   //grab session cookie
   const sessionCookie = cookies().get('session')
   if (!sessionCookie) return null

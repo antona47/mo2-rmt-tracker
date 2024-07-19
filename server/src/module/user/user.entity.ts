@@ -22,7 +22,7 @@ export class User {
   name: string
 
   @Column('boolean', { nullable: false })
-  accessGranted: boolean
+  hasAccess: boolean
 
   @Column('boolean', { nullable: false })
   isAdmin: boolean
