@@ -2,7 +2,7 @@
 
 import { GoogleAnalytics } from 'nextjs-google-analytics'
 
-import { ISessionResponse } from '@@/interface/request/session'
+import { ISessionResponse } from '@@/interface/request/internal/session'
 import { sessionContext, sessionConstructor } from '@/context/session.context'
 
 import styles from './PrivatePage.module.scss'
@@ -29,15 +29,15 @@ const PrivatePage = ({ sessionData }:IPrivatePage) => {
 
   //return frame
   return (
+    <sessionContext.Provider value={session}>
+
     <main className={`flex min-h-screen flex-col ${styles.main}`}>
       <GoogleAnalytics trackPageViews />
-
-      <sessionContext.Provider value={session}>
-        <Header isPrivate />
-        <Body/>
-      </sessionContext.Provider>
-
+      <Header isPrivate />
+      <Body/>
     </main>
+
+    </sessionContext.Provider>
   )
 }
 

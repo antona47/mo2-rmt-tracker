@@ -1,5 +1,5 @@
 import post, { IPost } from "../post"
-import { ISalesRequest } from "@@/interface/request/sales"
+import { ISalesRequest, ISalesResponse } from "@@/interface/request/sales"
 
 
 
@@ -7,6 +7,7 @@ import { ISalesRequest } from "@@/interface/request/sales"
 
 interface ISales extends IPost {
   pkg: ISalesRequest
+  onSuccess: (a:ISalesResponse) => void
 }
 
 

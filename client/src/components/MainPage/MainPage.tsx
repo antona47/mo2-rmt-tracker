@@ -2,7 +2,7 @@
 
 import { GoogleAnalytics } from 'nextjs-google-analytics'
 
-import { ISessionResponse } from '@@/interface/request/session'
+import { ISessionResponse } from '@@/interface/request/internal/session'
 import { sessionContext, sessionConstructor } from '@/context/session.context'
 
 import styles from './MainPage.module.scss'
@@ -30,16 +30,16 @@ const MainPage = ({ sessionData }:IMainPage) => {
 
   //return frame
   return (
+    <sessionContext.Provider value={session}>
+
     <main className={`flex min-h-screen flex-col ${styles.main}`}>
       <GoogleAnalytics trackPageViews />
-
-      <sessionContext.Provider value={session}>
-        <Announcement />
-        <Header/>
-        <Body/>
-      </sessionContext.Provider>
-
+      <Announcement/>
+      <Header/>
+      <Body/>
     </main>
+
+    </sessionContext.Provider>
   )
 }
 

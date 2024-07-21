@@ -1,5 +1,5 @@
 import post, { IPost } from "../post"
-import { IQuotesRequest } from "@@/interface/request/quotes"
+import { IQuotesRequest, IQuotesResponse } from "@@/interface/request/quotes"
 
 
 
@@ -7,6 +7,7 @@ import { IQuotesRequest } from "@@/interface/request/quotes"
 
 interface IQuotes extends IPost {
   pkg: IQuotesRequest
+  onSuccess: (a:IQuotesResponse) => void
 }
 
 

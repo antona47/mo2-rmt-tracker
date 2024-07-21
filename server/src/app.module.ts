@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 
+import { AdminModule } from './module/admin/admin.module'
 import { AuthModule } from './module/auth/auth.module'
 import { DataModule } from '@/module/data/data.module'
 import { DiscordModule } from './module/discord/discord.module'
@@ -19,6 +20,7 @@ import { typeormModuleConfig } from '@/db/config'
 
 @Module({
   imports: [
+    AdminModule,
     AuthModule,
     DataModule,
     DiscordModule,

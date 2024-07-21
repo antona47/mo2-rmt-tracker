@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-import { ISessionResponse } from '@@/interface/request/session'
+import { ISessionResponse } from '@@/interface/request/internal/session'
 
 
 

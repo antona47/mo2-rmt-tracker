@@ -1,6 +1,6 @@
 import { IsBoolean, IsOptional } from 'class-validator'
 import { GenericResponse } from '@/interface/response'
-import { ISessionResponse } from '@@/interface/request/session'
+import { ISessionResponse } from '@@/interface/request/internal/session'
 
 
 

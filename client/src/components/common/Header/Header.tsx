@@ -4,9 +4,8 @@ import { sessionContext } from '@/context/session.context'
 import discordUri from './discordUri'
 import logout from '@/request/session/logout'
 
-import style from './Header.module.scss'
-
 import Image from "next/image"
+import UserAvatar from '../UserAvatar'
 import If from "@/components/abstract/If"
 
 
@@ -24,9 +23,6 @@ interface IHeader {
 
 const Header = ({ isPrivate }:IHeader) => {
   const session = useContext(sessionContext)
-
-  const avatarUrl = `${process.env.NEXT_PUBLIC_API_PATH}/image/avatar/${session.id}`
-  const avatarStyle = { backgroundImage: `url(${avatarUrl})` }
 
 
   //controls
@@ -75,7 +71,7 @@ const Header = ({ isPrivate }:IHeader) => {
             <If condition={session.status}>
 
               <div className="self-center p-1 bg-slate-900 w-fit rounded-full cursor-pointer" onClick={onPrivate}>
-                <div className={style.avatar} style={avatarStyle} />
+                <UserAvatar userId={session.id} size={50} />
               </div>
 
               <If condition={session.isAdmin}>

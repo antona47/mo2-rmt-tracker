@@ -22,5 +22,6 @@ export interface ISalesData {
 }
 
 export interface ISalesResponse {
+  status: number
   data: ISalesData[]
 }

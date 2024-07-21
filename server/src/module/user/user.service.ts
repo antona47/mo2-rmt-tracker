@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-// import { In } from 'typeorm'
 
 import { User } from './user.entity'
 import { Session } from '../auth/session.entity'
@@ -43,9 +42,9 @@ export class UserService {
 
 
 
-  // async getAll():Promise<User[]> {
-  //   return this.userRepository.find()
-  // }
+  async getAll():Promise<User[]> {
+    return this.userRepository.find()
+  }
 
 
 
@@ -54,14 +53,6 @@ export class UserService {
   async getById(userId:number):Promise<User> {
     return this.userRepository.findOne({ where: { id: userId } })
   }
-
-
-
-
-
-  // async getByIds(userIds:number[]):Promise<User[]> {
-  //   return this.userRepository.find({ where: { id: In(userIds) } })
-  // }
 
 
 

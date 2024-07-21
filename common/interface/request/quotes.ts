@@ -21,5 +21,6 @@ export interface IQuotesData {
 }
 
 export interface IQuotesResponse {
+  status: number
   data: IQuotesData[]
 }
