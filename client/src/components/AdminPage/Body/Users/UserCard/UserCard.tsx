@@ -12,17 +12,24 @@ import UserAvatar from '@/components/common/UserAvatar'
 
 interface IUserCard {
   user: IAUserData
+  onInspect: (a:IAUserData) => void
 }
 
 
 
 
 
-const UserCard = ({ user }:IUserCard) => {
+const UserCard = ({ user, onInspect }:IUserCard) => {
   const admin = useContext(adminContext)
 
   const firstLogin = dateString(new Date(user.firstLogin))
   const lastLogin = dateString(new Date(user.lastLogin))
+
+
+  //controls
+  const onClick = () => {
+    onInspect(user)
+  }
 
 
   //decorator
@@ -46,11 +53,11 @@ const UserCard = ({ user }:IUserCard) => {
   //return frame
   return (
     <div className={`flex flex-row p-2 mr-2 mb-2 bg-slate-900 border rounded-xl ${getDecorator()}`}>
-      <div className='self-top cursor-pointer'>
+      <div className='self-top cursor-pointer' onClick={onClick}>
         <UserAvatar userId={user.discordId} size={80} />
       </div>
       <div className='flex flex-col self-center mx-4'>
-        <div className='font-bold cursor-pointer hover:underline'>
+        <div className='font-bold cursor-pointer hover:underline' onClick={onClick}>
           {user.name}
         </div>
         <div>

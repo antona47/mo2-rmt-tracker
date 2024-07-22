@@ -34,7 +34,8 @@ interface IAdmin {
 interface IAdminUsers {
   data: { value: IAUserData[], set: (a:IAUserData[]) => void }
   filters: {
-    sortBy: { value: SortUsersBy, set: (a:SortUsersBy) => void }
+    sortBy: { value: SortUsersBy, set: (a:SortUsersBy) => void },
+    search: { value: string, set: (a:string) => void }
   }
 }
 
@@ -52,7 +53,8 @@ export const adminDefaults:IAdmin = {
   users: {
     data: { value: [], set },
     filters: {
-      sortBy: { value: SortUsersBy.LAST_LOGIN, set }
+      sortBy: { value: SortUsersBy.LAST_LOGIN, set },
+      search: { value: '', set }
     }
   }
 }
@@ -70,7 +72,7 @@ export const adminContext = createContext(adminDefaults)
 export const adminConstructor = (
   tab: AdminTab, setTab: (a:AdminTab) => void,
   announcement: string, setAnnouncement: (a:string) => void,
-  users:IAdminUsers
+  users: IAdminUsers
 ):IAdmin => ({
   tab: { value: tab, set: setTab },
   announcement: { value: announcement, set: setAnnouncement },
@@ -81,10 +83,12 @@ export const adminConstructor = (
 
 export const adminUsersConstructor = (
   data: IAUserData[], setData: (a:IAUserData[]) => void,
-  sortBy: SortUsersBy, setSortBy: (a:SortUsersBy) => void
+  sortBy: SortUsersBy, setSortBy: (a:SortUsersBy) => void,
+  search: string, setSearch: (a:string) => void
 ):IAdminUsers => ({
   data: { value: data, set: setData },
   filters: {
-    sortBy: { value: sortBy, set: setSortBy }
+    sortBy: { value: sortBy, set: (a) => setSortBy(Number(a)) },
+    search: { value: search, set: setSearch}
   }
 })

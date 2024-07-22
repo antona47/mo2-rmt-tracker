@@ -1,25 +1,20 @@
 {
   "scripts": {
     "build": "tsc -p . && npx @nestjs/cli build",
-
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-
     "pm2:start": "pm2 start npm --name backend -- start --color",
     "pm2:restart": "pm2 restart backend",
     "pm2:stop": "pm2 stop backend",
     "pm2:logs": "pm2 logs backend --raw --lines 100",
-
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-
     "migration:create": "node dist/server/scripts/createMigration.js",
     "migration:generate": "node dist/server/scripts/generateMigration.js",
-
     "admin:grant": "node dist/server/scripts/grantAdmin.js",
     "admin:revoke": "node dist/server/scripts/revokeAdmin.js"
   },

@@ -34,7 +34,8 @@ const AdminPage = ({ sessionData }:IAdminPage) => {
     ...useState(adminDefaults.announcement.value),
     adminUsersConstructor(
       ...useState(adminDefaults.users.data.value),
-      ...useState(adminDefaults.users.filters.sortBy.value)
+      ...useState(adminDefaults.users.filters.sortBy.value),
+      ...useState(adminDefaults.users.filters.search.value)
     )
   )
 
