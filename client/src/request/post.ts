@@ -1,10 +1,12 @@
-import axios, { AxiosResponse } from "axios"
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import { ISession } from "@/context/session.context"
 
 
 
 
 
 export interface IPost {
+  session?: ISession
   pkg: any
   onSuccess: (a?:any) => void
   onFail?: (a:any) => void
@@ -28,11 +30,14 @@ const onErrorDefault = (err:any) => {
 
 
 
-const post = async (path:string, { pkg, onSuccess, onFail, onError }:IPost) => {
+const post = async (path:string, { session, pkg, onSuccess, onFail, onError }:IPost) => {
   //post data
   const submitUrl = `${process.env.NEXT_PUBLIC_API_PATH}${path}`
+  
+  const options:AxiosRequestConfig = {}
+  if (session) options.headers = { 'csrf-token': session.csrf_token }
 
-  const resp = await axios.post(submitUrl, pkg).catch(onError || onErrorDefault)
+  const resp = await axios.post(submitUrl, pkg, options).catch(onError || onErrorDefault)
 
   //did the request succeed?
   if (!resp || resp.status !== 201) return

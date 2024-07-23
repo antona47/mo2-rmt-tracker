@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common'
 
 import { UserService } from '../user/user.service'
+
+import { User } from '../user/user.entity'
 import { IAUserData } from '@@/interface/request/admin/users'
 
 
@@ -30,6 +32,23 @@ export class AdminService {
       firstLogin: user.first_login,
       lastLogin: user.last_login
     }))
+  }
+
+
+
+
+
+  async getUserById(userId:number):Promise<User> {
+    return this.userService.getById(userId)
+  }
+
+
+
+
+
+  async setUserAccess(user:User, setAccess:boolean):Promise<void> {
+    user.hasAccess = setAccess
+    await this.userService.update(user)
   }
 
 }

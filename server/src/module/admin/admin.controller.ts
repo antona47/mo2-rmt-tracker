@@ -1,10 +1,11 @@
-import { Controller, Get, UseGuards } from '@nestjs/common'
+import { Controller, Get, Post, UseGuards, Body } from '@nestjs/common'
 import { AdminGuard } from '@/guard/admin.guard'
 
 import { AdminService } from './admin.service'
 
-import { AUsersResponseDTO } from './admin.dto'
+import { ASetAccessRequestDTO, ASetAccessResponseDTO, AUsersResponseDTO } from './admin.dto'
 import { ErrorResponse } from '@/interface/response'
+import adminResponse from './admin.response'
 
 
 
@@ -28,6 +29,26 @@ export class AdminController {
     return {
       status: 1,
       data: users
+    }
+  }
+
+
+
+
+
+  @UseGuards(AdminGuard)
+  @Post('/users/setAccess')
+  async setAccess(@Body() payload:ASetAccessRequestDTO):Promise<ASetAccessResponseDTO | ErrorResponse> {
+    //check user validity
+    const user = await this.adminService.getUserById(payload.userId)
+    if (!user) return adminResponse['USER_NOT_FOUND']
+
+    //apply access
+    await this.adminService.setUserAccess(user, payload.setAccess)
+
+    //success
+    return {
+      status: 1
     }
   }
 

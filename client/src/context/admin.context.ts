@@ -34,7 +34,7 @@ interface IAdmin {
 interface IAdminUsers {
   data: { value: IAUserData[], set: (a:IAUserData[]) => void }
   filters: {
-    sortBy: { value: SortUsersBy, set: (a:SortUsersBy) => void },
+    sortBy: { value: SortUsersBy, set: (a:SortUsersBy) => void }
     search: { value: string, set: (a:string) => void }
   }
 }

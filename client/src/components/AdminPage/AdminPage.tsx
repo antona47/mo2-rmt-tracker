@@ -1,17 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-
-import { ISessionResponse } from '@@/interface/request/internal/session'
-
+import { useEffect, useReducer, useState } from 'react'
 import { sessionContext, sessionConstructor } from '@/context/session.context'
 import { adminContext, adminConstructor, adminDefaults, adminUsersConstructor } from '@/context/admin.context'
 
+import { ISessionResponse } from '@@/interface/request/internal/session'
+import getUsers from '@/request/admin/users'
+
 import style from './AdminPage.module.scss'
 
+import Announcement from './Announcement'
 import Header from './Header'
 import Body from './Body'
-import getUsers from '@/request/admin/users'
 
 
 
@@ -55,6 +55,7 @@ const AdminPage = ({ sessionData }:IAdminPage) => {
     <adminContext.Provider value={admin}>
 
     <main className={`flex min-h-screen flex-col ${style.main}`}>
+      <Announcement/>
       <Header/>
       <Body/>
     </main>
