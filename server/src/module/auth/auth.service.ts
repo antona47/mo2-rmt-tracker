@@ -78,7 +78,7 @@ export class AuthService {
     }
 
     //find user
-    const user = await this.userService.getForSession(session)
+    const user = await this.userService.getById(session.user_id)
     if (!user) return false
 
     //should this user be an admin?

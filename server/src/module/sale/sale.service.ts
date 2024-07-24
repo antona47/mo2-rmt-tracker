@@ -7,6 +7,7 @@ import { Sale } from './sale.entity'
 import Provider from '@@/enum/provider'
 import { ISalesData } from '@@/interface/request/sales'
 import { ICreateSale } from './sale.interfaces'
+import { IBuyerData } from '@@/interface/request/private/buyers'
 
 import { populateWithZeroValueDays } from '@/util/dataHydration'
 import { shortDate } from '@/util/misc'
@@ -81,6 +82,34 @@ export class SaleService {
 
     //pack and return
     return populateWithZeroValueDays(startDate, endDate, queryResult, packer)
+  }
+
+
+
+
+
+  async getBuyers(provider:Provider, startDate:Date, endDate:Date):Promise<IBuyerData[]> {
+    const query = this.saleRepository.createQueryBuilder("sales")
+      .select(`buyer`)
+      .addSelect(`COUNT(id)`, `transactions`)
+      .addSelect(`SUM(value)`, `volume`)
+      .addSelect(`MAX(date)`, `latest`)
+      .where(`date >= :startDate AND date <= :endDate`, { startDate, endDate })
+      .groupBy(`buyer`)
+
+    //where clause
+    if (provider !== Provider.NONE) query.andWhere(`provider = :provider`, { provider })
+
+    //fetch
+    const queryResult = await query.getRawMany()
+
+    //success
+    return queryResult.map((buyer) => ({
+      buyer: buyer.buyer,
+      transactions: buyer.transactions,
+      volume: buyer.volume,
+      latest: buyer.latest
+    }))
   }
 
 }

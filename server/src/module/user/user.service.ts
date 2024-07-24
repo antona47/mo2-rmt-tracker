@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { User } from './user.entity'
-import { Session } from '../auth/session.entity'
 
 
 
@@ -52,14 +51,6 @@ export class UserService {
 
   async getById(userId:number):Promise<User> {
     return this.userRepository.findOne({ where: { id: userId } })
-  }
-
-
-
-
-
-  async getForSession(session:Session):Promise<User> {
-    return this.userRepository.findOne({ where: { id: session.user_id } })
   }
 
 
