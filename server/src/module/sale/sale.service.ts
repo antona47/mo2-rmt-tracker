@@ -55,7 +55,7 @@ export class SaleService {
 
 
 
-  async getSales(provider:Provider, startDate:Date, endDate:Date):Promise<ISalesData[]> {
+  async getSales(provider:Provider, startDate:Date, endDate:Date, buyer?:string):Promise<ISalesData[]> {
     //build query
     const query = this.saleRepository.createQueryBuilder("sales")
       .select(`SUM(amount)`, `amount`)
@@ -68,6 +68,7 @@ export class SaleService {
 
     //where clause
     if (provider !== Provider.NONE) query.andWhere(`provider = :provider`, { provider })
+    if (buyer) query.andWhere(`buyer = :buyer`, { buyer })
 
     //fetch
     const queryResult = await query.getRawMany()

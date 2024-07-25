@@ -1,4 +1,4 @@
-import Tooltip from "@/components/MainPage/Body/common/Chart/Tooltip"
+import Tooltip from "../Tooltip"
 
 
 

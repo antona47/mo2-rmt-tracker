@@ -3,10 +3,10 @@ import { ISalesData } from '@@/interface/request/sales'
 import { IQuotesData } from '@@/interface/request/quotes'
 
 import If from '@/components/abstract/If'
-import GoldTooltip from '../../Sales/GoldTooltip'
-import FiatTooltip from '../../Sales/FiatTooltip'
-import PriceTooltip from '../../Prices/PriceTooltip'
-import OffersTooltip from '../../Offers/OffersTooltip'
+import GoldTooltip from './Tooltip/GoldTooltip'
+import FiatTooltip from './Tooltip/FiatTooltip'
+import PriceTooltip from './Tooltip/PriceTooltip'
+import OffersTooltip from './Tooltip/OffersTooltip'
 
 
 

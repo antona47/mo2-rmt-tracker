@@ -24,7 +24,7 @@ const Sales = ({ sales, loading, Chart }:ISales) => {
   const [salesMode, setSalesMode] = useState("gold")
 
   return (
-    <div className="w-full mt-16">
+    <div className="grow">
 
       <div className="flex flex-row w-full my-2">
         <ModeButton value="gold" label="Gold" mode={salesMode} setMode={setSalesMode} />

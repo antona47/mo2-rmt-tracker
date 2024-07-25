@@ -8,6 +8,7 @@ export interface ISalesRequest {
   provider: Provider
   startDate: Date
   endDate: Date
+  buyer?: string
 }
 
 

@@ -86,9 +86,9 @@ export class AuthService {
     if (shouldBeAdmin && !user.isAdmin) return false
 
     //extend session (don't wait unless in test mode)
-    await awaitIfTest(() => {
-      return this.sessionRepository.update({ id: session.id }, { valid_until: freshSessionTerm() })
-    })
+    // await awaitIfTest(() => {
+    //   return this.sessionRepository.update({ id: session.id }, { valid_until: freshSessionTerm() })
+    // })
 
     //update last login if appropriate
     if (Number(user.last_login) < Date.now() - config.auth.updateLastLoginAfter) {

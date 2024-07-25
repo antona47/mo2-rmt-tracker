@@ -1,6 +1,6 @@
 import { IQuotesData } from '@@/interface/request/quotes'
 
-import ModeButton from '../common/ModeButton'
+import ModeButton from '@/components/common/ModeButton'
 import Totals from './Totals'
 import If from '@/components/abstract/If'
 

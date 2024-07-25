@@ -13,7 +13,7 @@ import Sales from './Sales'
 import Prices from './Prices'
 import Offers from './Offers'
 
-const Chart = dynamic(() => import('./common/Chart'))
+const Chart = dynamic(() => import('@/components/common/Chart'))
 
 
 
@@ -58,7 +58,7 @@ const Body = () => {
   }, [provider, startDate, endDate])
 
 
-  //return frame
+  //return
   return (
     <div className="flex flex-col w-full max-w-5xl mx-auto justify-center relative pt-4 pb-16 px-2">
 

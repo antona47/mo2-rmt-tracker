@@ -27,7 +27,7 @@ export class SaleController {
     restrictDates(payload)
 
     //fetch data
-    const data = await this.saleService.getSales(payload.provider, payload.startDate, payload.endDate)
+    const data = await this.saleService.getSales(payload.provider, payload.startDate, payload.endDate, payload.buyer)
 
     //success
     return {
