@@ -1,8 +1,9 @@
-import { Controller, Post, Body } from '@nestjs/common'
+import { Controller, Post, Body, UseGuards } from '@nestjs/common'
+import { PrivateGuard } from '@/guard/private.guard'
 
 import { SaleService } from './sale.service'
 
-import { SalesResponseDTO, SalesRequestDTO } from './sale.dto'
+import { SalesResponseDTO, SalesRequestDTO, BuyersRequestDTO, BuyersResponseDTO } from './sale.dto'
 import { ErrorResponse } from '@/interface/response'
 
 import { restrictDates } from '@/util/dates'
@@ -33,6 +34,26 @@ export class SaleController {
     return {
       status: 1,
       data
+    }
+  }
+
+
+
+
+
+  @UseGuards(PrivateGuard)
+  @Post('/buyers')
+  async buyers(@Body() payload:BuyersRequestDTO):Promise<BuyersResponseDTO | ErrorResponse> {
+    //restrict dates
+    restrictDates(payload)
+
+    //fetch data
+    const buyers = await this.saleService.getBuyers(payload.provider, payload.startDate, payload.endDate)
+
+    //success
+    return {
+      status: 1,
+      data: buyers
     }
   }
 

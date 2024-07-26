@@ -16,6 +16,7 @@ export class PrivateGuard extends AuthGuard {
   async canActivate(context:ExecutionContext):Promise<boolean> {
     //auth with super
     const result = await super.canActivate(context)
+    if (!result) return false
 
     //check access
     const request:AuthRequest = context.switchToHttp().getRequest()

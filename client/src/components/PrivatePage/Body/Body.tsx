@@ -4,15 +4,19 @@ import { sessionContext } from "@/context/session.context"
 
 import Provider from "@@/enum/provider"
 import { ISalesData, ISalesRequest } from "@@/interface/request/sales"
+import { IBuyerData } from "@@/interface/request/private/buyers"
 import { IQuotesData } from "@@/interface/request/quotes"
 
 import getSales from "@/request/data/sales"
+import getBuyers from "@/request/data/buyers"
 import getQuotes from "@/request/data/quotes"
 
 import If from "@/components/abstract/If"
 import Filters from '@/components/common/Filters'
 import Buyers from "./Buyers"
-import Sales from "./Sales"
+import Sales from "@/components/common/Sales"
+import Prices from "@/components/common/Prices"
+import Offers from "@/components/common/Offers"
 
 const Chart = dynamic(() => import('@/components/common/Chart'))
 
@@ -37,16 +41,17 @@ const Body = () => {
 
   //data state
   const [sales, setSales] = useState<ISalesData[]>([])
+  const [buyers, setBuyers] = useState<IBuyerData[]>([])
   const [quotes, setQuotes] = useState<IQuotesData[]>([])
 
   const [loadingSales, setLoadingSales] = useState(true)
+  const [loadingBuyers, setLoadingBuyers] = useState(true)
   const [loadingQuotes, setLoadingQuotes] = useState(true)
 
 
   //fetch
   useEffect(() => {
     setLoadingSales(true)
-    setLoadingQuotes(true)
 
     const salesPkg:ISalesRequest = { provider, startDate, endDate }
     if (buyer) salesPkg.buyer = buyer
@@ -59,6 +64,23 @@ const Body = () => {
       }
     })
   }, [provider, buyer, startDate, endDate])
+
+
+  useEffect(() => {
+    setLoadingBuyers(true)
+
+    getBuyers({
+      session,
+      pkg: { provider, startDate, endDate },
+      onSuccess: (resp) => {
+        setBuyers(resp.data.map((buyer) => {
+          buyer.latest = new Date(buyer.latest)
+          return buyer
+        }))
+        setLoadingBuyers(false)
+      }
+    })
+  }, [provider, startDate, endDate])
 
 
   useEffect(() => {
@@ -100,10 +122,16 @@ const Body = () => {
         </If>
 
         <If condition={hasAccess}>
+
           <div className="flex flex-row w-full mt-16">
-            <Buyers buyers={[]} buyer={buyer} setBuyer={setBuyer} buyerSelectActive={buyerSelectActive} />
+            <Buyers buyers={buyers} loading={loadingBuyers} selected={buyer} setSelected={setBuyer} buyerSelectActive={buyerSelectActive} />
             <Sales sales={sales} loading={loadingSales} Chart={Chart} />
           </div>
+
+          <Prices quotes={quotes} loading={loadingQuotes} Chart={Chart} />
+
+          <Offers quotes={quotes} loading={loadingQuotes} Chart={Chart} />
+
         </If>
 
       </div>

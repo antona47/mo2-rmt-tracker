@@ -9,9 +9,9 @@ import getQuotes from "@/request/data/quotes"
 import { IQuotesData } from '@@/interface/request/quotes'
 
 import Filters from '@/components/common/Filters'
-import Sales from './Sales'
-import Prices from './Prices'
-import Offers from './Offers'
+import Sales from '@/components/common/Sales'
+import Prices from '@/components/common/Prices'
+import Offers from '@/components/common/Offers'
 
 const Chart = dynamic(() => import('@/components/common/Chart'))
 
@@ -68,7 +68,7 @@ const Body = () => {
         endDate={endDate} setEndDate={setEndDate}
       />
 
-      <div className="w-full max-w-4xl m-auto">
+      <div className="w-full max-w-4xl m-auto mt-16">
 
         <Sales sales={sales} loading={loadingSales} Chart={Chart} />
 

@@ -36,7 +36,7 @@ const Chart = ({ mode, data }:IChart) => {
             <CartesianGrid stroke="#222" strokeDasharray="5 5" />
             <Line type="step" dataKey="amount" stroke="#FFD700" dot={false} />
             <XAxis dataKey="date" tickFormatter={formatDate} />
-            <YAxis />
+            <YAxis domain={[0, 10000]} allowDataOverflow={false} />
             <Tooltip content={<GoldTooltip />} />
           </LineChart>
         </ResponsiveContainer>
@@ -48,7 +48,7 @@ const Chart = ({ mode, data }:IChart) => {
             <CartesianGrid stroke="#222" strokeDasharray="5 5" />
             <Line type="step" dataKey="value" stroke="#47B33D" dot={false} />
             <XAxis dataKey="date" tickFormatter={formatDate} />
-            <YAxis />
+            <YAxis domain={[0, 100]} allowDataOverflow={false} unit=" $" />
             <Tooltip content={<FiatTooltip />} />
           </LineChart>
         </ResponsiveContainer>

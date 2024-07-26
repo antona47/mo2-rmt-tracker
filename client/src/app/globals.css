@@ -5,6 +5,10 @@
 
 
 :root {
+  --background-color: #090909;
+  --slate-900-color: rgb(15 23 42);
+  --slate-400-color: rgb(148 163 184);
+
   --transactions-color: #e6609f;
   --gold-color: #FFD700;
   --fiat-color: #47B33D;

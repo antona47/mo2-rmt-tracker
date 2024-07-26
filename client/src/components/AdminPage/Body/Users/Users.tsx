@@ -99,7 +99,7 @@ const userPassesFilter = (user:IAUserData, search:string):boolean => {
 
 
 const sortUsers = (sortBy:SortUsersBy) => (a:IAUserData, b:IAUserData):number => {
-  if (sortBy === SortUsersBy.NAME) return a.name < b.name ? -1 : 1
+  if (sortBy === SortUsersBy.NAME) return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
   if (sortBy === SortUsersBy.FIRST_LOGIN) return a.firstLogin < b.firstLogin ? -1 : 1
   if (sortBy === SortUsersBy.LAST_LOGIN) return a.lastLogin > b.lastLogin ? -1 : 1
   return a.id < b.id ? -1 : 1

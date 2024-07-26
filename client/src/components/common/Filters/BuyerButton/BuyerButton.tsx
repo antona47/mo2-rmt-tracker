@@ -10,7 +10,7 @@ interface IBuyerButton {
 
 const BuyerButton = ({ buyer, onBuyerClick, isActive }:IBuyerButton) => {
   const getClass = () => {
-    if (isActive) return `border-slate-600`
+    if (isActive) return `border-slate-400`
     return `border-slate-900`
   }
 

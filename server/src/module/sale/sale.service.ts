@@ -107,8 +107,8 @@ export class SaleService {
     //success
     return queryResult.map((buyer) => ({
       buyer: buyer.buyer,
-      transactions: buyer.transactions,
-      volume: buyer.volume,
+      transactions: Number(buyer.transactions),
+      volume: Number(buyer.volume),
       latest: buyer.latest
     }))
   }

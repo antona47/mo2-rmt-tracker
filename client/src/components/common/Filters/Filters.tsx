@@ -1,11 +1,10 @@
 import Provider from "@@/enum/provider"
 
-import SelectProvider from "./SelectProvider"
+import Selector from "@/components/abstract/Selector"
 import BuyerButton from "./BuyerButton"
 import DatePicker from "react-datepicker"
-
-import "react-datepicker/dist/react-datepicker.css"
 import If from "@/components/abstract/If"
+import "react-datepicker/dist/react-datepicker.css"
 
 
 
@@ -32,6 +31,10 @@ const Filters = ({ provider, setProvider, startDate, setStartDate, endDate, setE
 
 
   //controls
+  const onProviderChange = (value:any) => {
+    setProvider(Number(value))
+  }
+
   const onStartDateChange = (date:Date | null) => {
     if (!date) return
     if (endDate.getTime() - date.getTime() > maxDateRange) {
@@ -54,10 +57,10 @@ const Filters = ({ provider, setProvider, startDate, setStartDate, endDate, setE
     <div className="flex flex-row w-full justify-between border-b-2 border-slate-900 pb-2">
 
       <div className="flex flex-row">
-        <SelectProvider value={provider} setValue={setProvider} options={[
+        <Selector className="min-w-40 bg-gray-900 px-1 py-0.5 cursor-pointer outline-none" options={[
           { value: Provider.NONE, label: "All Sites" },
           { value: Provider.PLAYER_AUCTIONS, label: "Player Auctions" }
-        ]} />
+        ]} value={provider} setValue={onProviderChange} />
         <If condition={buyer || onBuyerClick}>
           <BuyerButton buyer={buyer} isActive={buyerSelectActive} onBuyerClick={onBuyerClick} />
         </If>
