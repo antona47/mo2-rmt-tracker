@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import axios from 'axios'
-import { ISessionResponse } from '@@/interface/request/session'
+import { ISessionResponse } from '@@/interface/request/internal/session'
 
 
 
