@@ -20,7 +20,7 @@ export class PrivateGuard extends AuthGuard {
 
     //check access
     const request:AuthRequest = context.switchToHttp().getRequest()
-    if (!request.user.hasAccess) return false
+    if (!request.user.hasAccess && !request.user.isAdmin) return false
 
     //success
     return true
