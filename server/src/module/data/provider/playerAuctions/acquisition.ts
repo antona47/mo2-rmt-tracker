@@ -10,7 +10,7 @@ const Xray = require('x-ray')
 let x:any
 
 export const init = async () => {
-  x = Xray({ filters: { clean, getGold, getDate } })
+  x = Xray({ filters: { clean, getGold, getDate, trimComment } })
 }
 
 
@@ -21,7 +21,7 @@ export const getPage = async (page:number):Promise<IPlayerAuctionsEntry[]> => {
   const url = `https://www.playerauctions.com/mortal-online-2-gold/reviews/?PageIndex=${page}`
 
   const results = await x(url, '.body-feedback > div', [{
-    comment: '.feedback-gold p:first-child | clean',
+    comment: '.feedback-gold p:first-child | clean | trimComment',
     amount: '.feedback-gold p:last-child | clean | getGold',
     buyer: '.feedback-left-by div:last-child p | clean',
     date: '.feedback-comment-date | clean | getDate'
@@ -81,7 +81,12 @@ export const getQuote = async():Promise<IPlayerAuctionsQuote> => {
 //FILTERS
 
 const clean = (value:string):string => {
-  return value.replaceAll('\n', '')
+  return value.replaceAll('\n', '').trim()
+}
+
+
+const trimComment = (value:string):string => {
+  return value.substring(0, 100)
 }
 
 

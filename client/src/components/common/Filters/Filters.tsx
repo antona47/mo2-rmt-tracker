@@ -69,7 +69,7 @@ const Filters = ({ provider, setProvider, startDate, setStartDate, endDate, setE
       <div className="flex flex-row">
         <div>
           From:
-          <DatePicker className="bg-slate-900 text-center ml-2"
+          <DatePicker className="bg-slate-900 text-center ml-2 py-1"
             dateFormat={"dd-MM-yyyy"}
             selected={startDate}
             onChange={onStartDateChange}
@@ -80,7 +80,7 @@ const Filters = ({ provider, setProvider, startDate, setStartDate, endDate, setE
         </div>
         <div className="ml-4">
           To:
-          <DatePicker className="bg-slate-900 text-center ml-2"
+          <DatePicker className="bg-slate-900 text-center ml-2 py-1"
             dateFormat={"dd-MM-yyyy"}
             selected={endDate}
             onChange={onEndDateChange}
