@@ -55,6 +55,6 @@
       "delayBetweenRequests": 1000,
       "logs": false
     },
-    "exportMaxDateRange": 31536000000
+    "exportMaxDateRange": 15768e7
   }
 }

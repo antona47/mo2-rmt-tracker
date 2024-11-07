@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic'
 import { useEffect, useState } from "react"
 
 import Provider from "@@/enum/provider"
+import Period from '@@/enum/period'
 
 import getSales from "@/request/data/sales"
 import { ISalesData } from "@@/interface/request/sales"
@@ -22,6 +23,7 @@ const Chart = dynamic(() => import('@/components/common/Chart'))
 const Body = () => {
   //filter state
   const [provider, setProvider] = useState(Provider.NONE)
+  const [period, setPeriod] = useState(Period.DAY)
 
   const now = new Date()
   const [startDate, setStartDate] = useState(new Date(now.getFullYear(), now.getMonth() - 3, now.getDate()))
@@ -41,7 +43,7 @@ const Body = () => {
     setLoadingQuotes(true)
 
     getSales({
-      pkg: { provider, startDate, endDate },
+      pkg: { provider, period, startDate, endDate },
       onSuccess: (resp) => {
         setSales(resp.data)
         setLoadingSales(false)
@@ -55,7 +57,7 @@ const Body = () => {
         setLoadingQuotes(false)
       }
     })
-  }, [provider, startDate, endDate])
+  }, [provider, period, startDate, endDate])
 
 
   //return
@@ -64,6 +66,7 @@ const Body = () => {
 
       <Filters
         provider={provider} setProvider={setProvider}
+        period={period} setPeriod={setPeriod}
         startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate}
       />

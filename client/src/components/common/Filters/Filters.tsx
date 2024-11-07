@@ -1,4 +1,5 @@
 import Provider from "@@/enum/provider"
+import Period from "@@/enum/period"
 
 import Selector from "@/components/abstract/Selector"
 import BuyerButton from "./BuyerButton"
@@ -13,6 +14,8 @@ import "react-datepicker/dist/react-datepicker.css"
 interface IFilters {
   provider: Provider
   setProvider: (a:Provider) => void
+  period: Period
+  setPeriod: (a:Period) => void
   startDate: Date
   setStartDate: (a:Date) => void
   endDate: Date
@@ -26,13 +29,17 @@ interface IFilters {
 
 
 
-const Filters = ({ provider, setProvider, startDate, setStartDate, endDate, setEndDate, buyer, buyerSelectActive, onBuyerClick }:IFilters) => {
+const Filters = ({ provider, setProvider, period, setPeriod, startDate, setStartDate, endDate, setEndDate, buyer, buyerSelectActive, onBuyerClick }:IFilters) => {
   const maxDateRange = Number(process.env.NEXT_PUBLIC_MAX_DATE_RANGE)
 
 
   //controls
   const onProviderChange = (value:any) => {
     setProvider(Number(value))
+  }
+
+  const onPeriodChange = (value:any) => {
+    setPeriod(Number(value))
   }
 
   const onStartDateChange = (date:Date | null) => {
@@ -57,10 +64,16 @@ const Filters = ({ provider, setProvider, startDate, setStartDate, endDate, setE
     <div className="flex flex-row w-full justify-between border-b-2 border-slate-900 pb-2">
 
       <div className="flex flex-row">
-        <Selector className="min-w-40 bg-gray-900 px-1 py-0.5 cursor-pointer outline-none" options={[
+        {/* <Selector className="min-w-40 bg-gray-900 px-1 py-0.5 cursor-pointer outline-none" options={[
           { value: Provider.NONE, label: "All Sites" },
           { value: Provider.PLAYER_AUCTIONS, label: "Player Auctions" }
-        ]} value={provider} setValue={onProviderChange} />
+        ]} value={provider} setValue={onProviderChange} /> */}
+        <Selector className="min-w-40 bg-gray-900 px-1 py-0.5 cursor-pointer outline-none" options={[
+          { value: Period.DAY, label: "Daily" },
+          { value: Period.WEEK, label: "Weekly" },
+          { value: Period.MONTH, label: "Monthly" },
+          { value: Period.YEAR, label: "Annual" },
+        ]} value={period} setValue={onPeriodChange} />
         <If condition={buyer || onBuyerClick}>
           <BuyerButton buyer={buyer} isActive={buyerSelectActive} onBuyerClick={onBuyerClick} />
         </If>

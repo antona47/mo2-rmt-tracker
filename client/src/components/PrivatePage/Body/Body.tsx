@@ -3,6 +3,8 @@ import { useContext, useEffect, useState } from "react"
 import { sessionContext } from "@/context/session.context"
 
 import Provider from "@@/enum/provider"
+import Period from "@@/enum/period"
+
 import { ISalesData, ISalesRequest } from "@@/interface/request/sales"
 import { IBuyerData } from "@@/interface/request/private/buyers"
 import { IQuotesData } from "@@/interface/request/quotes"
@@ -32,6 +34,7 @@ const Body = () => {
 
   //filter state
   const [provider, setProvider] = useState(Provider.NONE)
+  const [period, setPeriod] = useState(Period.DAY)
   const [buyer, setBuyer] = useState<string | null>(null)
   const [buyerSelectActive, setBuyerSelectActive] = useState(false)
 
@@ -53,7 +56,7 @@ const Body = () => {
   useEffect(() => {
     setLoadingSales(true)
 
-    const salesPkg:ISalesRequest = { provider, startDate, endDate }
+    const salesPkg:ISalesRequest = { provider, period, startDate, endDate }
     if (buyer) salesPkg.buyer = buyer
 
     getSales({
@@ -63,7 +66,7 @@ const Body = () => {
         setLoadingSales(false)
       }
     })
-  }, [provider, buyer, startDate, endDate])
+  }, [provider, period, buyer, startDate, endDate])
 
 
   useEffect(() => {
@@ -108,6 +111,7 @@ const Body = () => {
 
       <Filters
         provider={provider} setProvider={setProvider}
+        period={period} setPeriod={setPeriod}
         startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate}
         buyer={buyer} buyerSelectActive={buyerSelectActive} onBuyerClick={onBuyerClick}

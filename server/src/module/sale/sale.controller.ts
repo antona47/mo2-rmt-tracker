@@ -3,10 +3,11 @@ import { PrivateGuard } from '@/guard/private.guard'
 
 import { SaleService } from './sale.service'
 
+import Period from '@@/enum/period'
 import { SalesResponseDTO, SalesRequestDTO, BuyersRequestDTO, BuyersResponseDTO } from './sale.dto'
 import { ErrorResponse } from '@/interface/response'
 
-import { restrictDates } from '@/util/dates'
+import { adjustDatesToPeriod, restrictDates } from '@/util/dates'
 
 
 
@@ -24,11 +25,12 @@ export class SaleController {
 
   @Post('/sales')
   async sales(@Body() payload:SalesRequestDTO):Promise<SalesResponseDTO | ErrorResponse> {
-    //restrict date range
+    //fix dates
     restrictDates(payload)
+    adjustDatesToPeriod(payload)
 
     //fetch data
-    const data = await this.saleService.getSales(payload.provider, payload.startDate, payload.endDate, payload.buyer)
+    const data = await this.saleService.getSales(payload.provider, payload.period, payload.startDate, payload.endDate, payload.buyer)
 
     //success
     return {
@@ -44,8 +46,12 @@ export class SaleController {
   @UseGuards(PrivateGuard)
   @Post('/buyers')
   async buyers(@Body() payload:BuyersRequestDTO):Promise<BuyersResponseDTO | ErrorResponse> {
-    //restrict dates
-    restrictDates(payload)
+    //fix dates
+    restrictDates({
+      startDate: payload.startDate,
+      endDate: payload.endDate,
+      period: Period.DAY
+    })
 
     //fetch data
     const buyers = await this.saleService.getBuyers(payload.provider, payload.startDate, payload.endDate)

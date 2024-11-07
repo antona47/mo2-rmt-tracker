@@ -1,7 +1,7 @@
 import { IsDate, IsEnum } from 'class-validator'
 import { Transform, Type } from 'class-transformer'
 import { GenericResponse } from '@/interface/response'
-import { zeroedDate } from '@/util/misc'
+import { zeroedDate } from '@/util/dates'
 
 import Provider from '@@/enum/provider'
 import { IQuotesData, IQuotesRequest, IQuotesResponse } from '@@/interface/request/quotes'

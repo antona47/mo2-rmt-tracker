@@ -9,7 +9,8 @@ import * as Acquisition from './acquisition'
 import { IPlayerAuctionsEntry } from './interfaces'
 
 import env from '@/util/env'
-import { delay, shortDate } from '@/util/misc'
+import { shortDate } from '@/util/dates'
+import { delay } from '@/util/misc'
 import { config } from 'node-config-ts'
 
 

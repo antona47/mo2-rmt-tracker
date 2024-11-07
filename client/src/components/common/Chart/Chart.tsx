@@ -23,7 +23,9 @@ interface IChart {
 
 const Chart = ({ mode, data }:IChart) => {
   const formatDate = (date:string):string => {
-    return date.slice(0, date.lastIndexOf('/'))
+    const lastSlash = date.lastIndexOf('/')
+    if (lastSlash < 0) return date
+    return date.slice(0, lastSlash)
   }
 
   //return frame

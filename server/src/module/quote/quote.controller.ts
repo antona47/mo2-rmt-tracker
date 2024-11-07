@@ -5,7 +5,7 @@ import { QuoteService } from './quote.service'
 import { QuotesResponseDTO, QuotesRequestDTO } from './quote.dto'
 import { ErrorResponse } from '@/interface/response'
 
-import { zeroedDate } from '@/util/misc'
+import { zeroedDate } from '@/util/dates'
 import { config } from 'node-config-ts'
 
 

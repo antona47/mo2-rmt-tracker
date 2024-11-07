@@ -1,12 +1,14 @@
 import { IsDate, IsEnum, IsOptional, IsString, Length } from 'class-validator'
 import { Transform, Type } from 'class-transformer'
-import { zeroedDate } from '@/util/misc'
-
-import { GenericResponse } from '@/interface/response'
 
 import Provider from '@@/enum/provider'
+
+import { GenericResponse } from '@/interface/response'
 import { ISalesData, ISalesRequest, ISalesResponse } from '@@/interface/request/sales'
 import { IBuyerData, IBuyersRequest, IBuyersResponse } from '@@/interface/request/private/buyers'
+
+import { zeroedDate } from '@/util/dates'
+import Period from '@@/enum/period'
 
 
 
@@ -15,6 +17,9 @@ import { IBuyerData, IBuyersRequest, IBuyersResponse } from '@@/interface/reques
 export class SalesRequestDTO implements ISalesRequest {
   @IsEnum(Provider)
   provider: Provider
+
+  @IsEnum(Period)
+  period: Period
 
   @IsDate()
   @Type(() => Date)

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, MoreThanOrEqual } from 'typeorm'
-import { shortDate } from '@/util/misc'
+import { shortDate } from '@/util/dates'
 
 import { Quote } from './quote.entity'
 

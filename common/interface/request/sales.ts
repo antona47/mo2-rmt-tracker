@@ -1,3 +1,4 @@
+import Period from "@@/enum/period"
 import Provider from "@@/enum/provider"
 
 
@@ -6,6 +7,7 @@ import Provider from "@@/enum/provider"
 
 export interface ISalesRequest {
   provider: Provider
+  period: Period
   startDate: Date
   endDate: Date
   buyer?: string

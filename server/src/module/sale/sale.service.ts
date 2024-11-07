@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm'
+import { DataSource, Repository } from 'typeorm'
 
 import { Sale } from './sale.entity'
 
 import Provider from '@@/enum/provider'
-import { ISalesData } from '@@/interface/request/sales'
-import { ICreateSale } from './sale.interfaces'
-import { IBuyerData } from '@@/interface/request/private/buyers'
+import Period from '@@/enum/period'
 
-import { populateWithZeroValueDays } from '@/util/dataHydration'
-import { shortDate } from '@/util/misc'
+import { ISalesData } from '@@/interface/request/sales'
+import { IBuyerData } from '@@/interface/request/private/buyers'
+import { ICreateSale } from './sale.interfaces'
+
+import { shortDate, shortMonth } from '@/util/dates'
 
 
 
@@ -20,7 +21,9 @@ import { shortDate } from '@/util/misc'
 export class SaleService {
   constructor(
     @InjectRepository(Sale)
-    private saleRepository: Repository<Sale>
+    private saleRepository: Repository<Sale>,
+    @InjectDataSource()
+    private dataSource: DataSource
   ) {}
 
 
@@ -55,34 +58,54 @@ export class SaleService {
 
 
 
-  async getSales(provider:Provider, startDate:Date, endDate:Date, buyer?:string):Promise<ISalesData[]> {
-    //build query
-    const query = this.saleRepository.createQueryBuilder("sales")
-      .select(`SUM(amount)`, `amount`)
-      .addSelect(`SUM(value)`, `value`)
-      .addSelect(`COUNT(id)`, `count`)
-      .addSelect(`date`)
-      .where(`date >= :startDate AND date <= :endDate`, { startDate, endDate })
-      .groupBy(`date`)
-      .orderBy(`date`, `ASC`)
+  async getSales(provider:Provider, period:Period, startDate:Date, endDate:Date, buyer?:string):Promise<ISalesData[]> {
+    const where:string[] = []
+    const params:any[] = [startDate, endDate]
 
-    //where clause
-    if (provider !== Provider.NONE) query.andWhere(`provider = :provider`, { provider })
-    if (buyer) query.andWhere(`buyer = :buyer`, { buyer })
+    //build where clause
+    if (provider !== Provider.NONE) addWhereClause(`provider`, provider, where, params)
+    if (buyer) addWhereClause(`buyer`, buyer, where, params)
+
+    //build query
+    const query = `
+      SELECT
+        t1.date,
+        t2.amount,
+        t2.value,
+        t2.count
+      FROM (
+        SELECT
+          date,
+          To_char(date, '${periodMask(period)}') as date_string
+        FROM
+          generate_series($1::DATE, $2::DATE, '${periodSeries(period)}'::interval) as date
+      ) t1
+      LEFT OUTER JOIN (
+        SELECT
+          SUM(amount) as amount,
+          SUM(value) as value,
+          COUNT(id) as count,
+          To_char(date, '${periodMask(period)}') as date_string
+        FROM sales
+        ${where.length ? `WHERE ${where.join(` AND `)}` : ``}
+        GROUP BY date_string
+      ) t2
+      ON t1.date_string = t2.date_string
+    `
 
     //fetch
-    const queryResult = await query.getRawMany()
+    const queryResult = await this.dataSource.query(query, params)
 
     //define output packer
-    const packer = (sale:any | null, date:Date):ISalesData => ({
-      amount: Number(sale?.amount || 0),
-      value: Number(sale?.value / 100 || 0),
-      count: Number(sale?.count || 0),
-      date: shortDate(date)
+    const packer = (sale:any):ISalesData => ({
+      amount: Number(sale.amount || 0),
+      value: Number(sale.value / 100 || 0),
+      count: Number(sale.count || 0),
+      date: formatDate(sale.date, period)
     })
 
     //pack and return
-    return populateWithZeroValueDays(startDate, endDate, queryResult, packer)
+    return queryResult.map(packer)
   }
 
 
@@ -113,4 +136,46 @@ export class SaleService {
     }))
   }
 
+}
+
+
+
+
+
+const addWhereClause = (condition:string, param:any, where:string[], params:any[]) => {
+  params.push(param)
+  where.push(`${condition} = $${params.length}`)
+}
+
+
+
+
+
+const periodMask = (period:Period):string => {
+  if (period === Period.DAY) return `IYYY-MM-DD`
+  if (period === Period.WEEK) return `IYYY-IW`
+  if (period === Period.MONTH) return `IYYY-MM`
+  if (period === Period.YEAR) return `IYYY`
+}
+
+
+
+
+
+const periodSeries = (period:Period):string => {
+  if (period === Period.DAY) return `1 day`
+  if (period === Period.WEEK) return `1 week`
+  if (period === Period.MONTH) return `1 month`
+  if (period === Period.YEAR) return `1 year`
+}
+
+
+
+
+
+const formatDate = (date:Date, period:Period):string => {
+  if (period === Period.DAY) return shortDate(date)
+  if (period === Period.WEEK) return shortDate(date)
+  if (period === Period.MONTH) return shortMonth(date)
+  if (period === Period.YEAR) return `${date.getFullYear()}`
 }
