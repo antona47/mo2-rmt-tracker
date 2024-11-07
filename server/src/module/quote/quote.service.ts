@@ -115,7 +115,7 @@ export class QuoteService {
           AVG(price) as price,
           MIN(price) as min_price,
           MAX(price) as max_price,
-          SUM(offers) as offers,
+          AVG(offers) as offers,
           To_char(date, '${periodMask(period)}') as date_string
         FROM quotes
         ${where.length ? `WHERE ${where.join(` AND `)}` : ``}
@@ -144,7 +144,7 @@ export class QuoteService {
 
       result.quotes.push({
         price: Math.round(Number(row.price)) / 100,
-        offers: Number(row.offers),
+        offers: Math.round(Number(row.offers)),
         date: formatDate(row.date, period)
       })
     }
