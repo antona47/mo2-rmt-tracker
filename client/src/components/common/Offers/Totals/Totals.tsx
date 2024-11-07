@@ -8,22 +8,22 @@ import bodyStyle from '@/components/MainPage/Body/Body.module.scss'
 
 
 interface ITotals {
-  quotes: IQuotesData[]
+  data: IQuotesData
 }
 
 
 
 
 
-const Totals = ({ quotes }:ITotals) => {
+const Totals = ({ data }:ITotals) => {
   //data
-  const minOffers = quotes.reduce((min, day) => Math.min(min, day.offers), quotes[0]?.offers || 0)
-  const maxOffers = quotes.reduce((max, day) => Math.max(max, day.offers), quotes[0]?.offers || 0)
-  const avgOffers = quotes.reduce((total, day) => total + day.offers, 0) / quotes.length
+  const minOffers = data.quotes.reduce((min, day) => Math.min(min, day.offers), data.quotes[0]?.offers || 0)
+  const maxOffers = data.quotes.reduce((max, day) => Math.max(max, day.offers), data.quotes[0]?.offers || 0)
+  const avgOffers = data.quotes.reduce((total, day) => total + day.offers, 0) / data.quotes.length
 
   //styles
   const getClass = ():string => {
-    if (quotes.length) return bodyStyle.fadeIn
+    if (data.quotes.length) return bodyStyle.fadeIn
     return `opacity-0`
   }
 

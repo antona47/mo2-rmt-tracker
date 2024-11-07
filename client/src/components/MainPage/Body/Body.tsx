@@ -31,7 +31,7 @@ const Body = () => {
 
   //data state
   const [sales, setSales] = useState<ISalesData[]>([])
-  const [quotes, setQuotes] = useState<IQuotesData[]>([])
+  const [quotes, setQuotes] = useState<IQuotesData>({ minPrice: 0, maxPrice: 0, quotes: [] })
 
   const [loadingSales, setLoadingSales] = useState(true)
   const [loadingQuotes, setLoadingQuotes] = useState(true)
@@ -51,7 +51,7 @@ const Body = () => {
     })
 
     getQuotes({
-      pkg: { provider, startDate, endDate },
+      pkg: { provider, period, startDate, endDate },
       onSuccess: (resp) => {
         setQuotes(resp.data)
         setLoadingQuotes(false)
@@ -75,9 +75,9 @@ const Body = () => {
 
         <Sales sales={sales} loading={loadingSales} Chart={Chart} />
 
-        <Prices quotes={quotes} loading={loadingQuotes} Chart={Chart} />
+        <Prices data={quotes} loading={loadingQuotes} Chart={Chart} />
 
-        <Offers quotes={quotes} loading={loadingQuotes} Chart={Chart} />
+        <Offers data={quotes} loading={loadingQuotes} Chart={Chart} />
 
       </div>
 

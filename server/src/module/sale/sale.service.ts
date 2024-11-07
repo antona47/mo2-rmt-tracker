@@ -11,7 +11,8 @@ import { ISalesData } from '@@/interface/request/sales'
 import { IBuyerData } from '@@/interface/request/private/buyers'
 import { ICreateSale } from './sale.interfaces'
 
-import { shortDate, shortMonth } from '@/util/dates'
+import { addWhereClause, periodMask, periodSeries } from '@/util/query'
+import { formatDate } from '@/util/dates'
 
 
 
@@ -96,16 +97,13 @@ export class SaleService {
     //fetch
     const queryResult = await this.dataSource.query(query, params)
 
-    //define output packer
-    const packer = (sale:any):ISalesData => ({
+    //pack and return
+    return queryResult.map((sale:any):ISalesData => ({
       amount: Number(sale.amount || 0),
       value: Number(sale.value / 100 || 0),
       count: Number(sale.count || 0),
       date: formatDate(sale.date, period)
-    })
-
-    //pack and return
-    return queryResult.map(packer)
+    }))
   }
 
 
@@ -128,7 +126,7 @@ export class SaleService {
     const queryResult = await query.getRawMany()
 
     //success
-    return queryResult.map((buyer) => ({
+    return queryResult.map((buyer:any):IBuyerData => ({
       buyer: buyer.buyer,
       transactions: Number(buyer.transactions),
       volume: Number(buyer.volume),
@@ -136,46 +134,4 @@ export class SaleService {
     }))
   }
 
-}
-
-
-
-
-
-const addWhereClause = (condition:string, param:any, where:string[], params:any[]) => {
-  params.push(param)
-  where.push(`${condition} = $${params.length}`)
-}
-
-
-
-
-
-const periodMask = (period:Period):string => {
-  if (period === Period.DAY) return `IYYY-MM-DD`
-  if (period === Period.WEEK) return `IYYY-IW`
-  if (period === Period.MONTH) return `IYYY-MM`
-  if (period === Period.YEAR) return `IYYY`
-}
-
-
-
-
-
-const periodSeries = (period:Period):string => {
-  if (period === Period.DAY) return `1 day`
-  if (period === Period.WEEK) return `1 week`
-  if (period === Period.MONTH) return `1 month`
-  if (period === Period.YEAR) return `1 year`
-}
-
-
-
-
-
-const formatDate = (date:Date, period:Period):string => {
-  if (period === Period.DAY) return shortDate(date)
-  if (period === Period.WEEK) return shortDate(date)
-  if (period === Period.MONTH) return shortMonth(date)
-  if (period === Period.YEAR) return `${date.getFullYear()}`
 }

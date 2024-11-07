@@ -1,15 +1,15 @@
 import { IQuotesData } from '@@/interface/request/quotes'
 
 import ModeButton from '@/components/common/ModeButton'
-import Totals from './Totals'
 import If from '@/components/abstract/If'
+import Totals from './Totals'
 
 
 
 
 
 interface IPrices {
-  quotes: IQuotesData[]
+  data: IQuotesData
   loading: boolean
   Chart: any
 }
@@ -18,7 +18,7 @@ interface IPrices {
 
 
 
-const Prices = ({ quotes, loading, Chart }:IPrices) => {
+const Prices = ({ data, loading, Chart }:IPrices) => {
   return (
     <div className="w-full mt-16">
 
@@ -36,11 +36,11 @@ const Prices = ({ quotes, loading, Chart }:IPrices) => {
 
         <If condition={!loading}>
 
-          <If condition={quotes.length}>
-            <Chart mode="price" data={quotes} />
+          <If condition={data.quotes.length}>
+            <Chart mode="price" data={data.quotes} />
           </If>
 
-          <If condition={!quotes.length}>
+          <If condition={!data.quotes.length}>
             <span className="self-center">
               [no data]
             </span>
@@ -50,7 +50,7 @@ const Prices = ({ quotes, loading, Chart }:IPrices) => {
 
       </div>
 
-      <Totals quotes={quotes} />
+      <Totals data={data} />
 
     </div>
   )

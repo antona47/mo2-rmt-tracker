@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, MoreThanOrEqual } from 'typeorm'
-import { shortDate } from '@/util/dates'
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm'
+import { Repository, MoreThanOrEqual, DataSource } from 'typeorm'
 
 import { Quote } from './quote.entity'
 
 import Provider from '@@/enum/provider'
+import Period from '@@/enum/period'
+
 import { IQuotesData } from '@@/interface/request/quotes'
 import { ICreateQuote, IPriceForDateCache } from './quote.interfaces'
+
+import { addWhereClause, periodMask, periodSeries } from '@/util/query'
+import { formatDate } from '@/util/dates'
 
 
 
@@ -17,7 +21,9 @@ import { ICreateQuote, IPriceForDateCache } from './quote.interfaces'
 export class QuoteService {
   constructor(
     @InjectRepository(Quote)
-    private quoteRepository: Repository<Quote>
+    private quoteRepository: Repository<Quote>,
+    @InjectDataSource()
+    private dataSource: DataSource
   ) {}
 
 
@@ -82,38 +88,72 @@ export class QuoteService {
 
 
 
-  async getQuotes(provider:Provider, startDate:Date, endDate:Date):Promise<IQuotesData[]> {
-    const query = this.quoteRepository.createQueryBuilder("quotes")
+  async getQuotes(provider:Provider, period:Period, startDate:Date, endDate:Date):Promise<IQuotesData> {
+    const where:string[] = []
+    const params:any[] = [startDate, endDate]
 
-    //do we source all providers?
-    if (provider === Provider.NONE) {
-      query.select(`MIN(price)`, `price`)
-        .addSelect(`SUM(offers)`, `offers`)
-        .addSelect(`date`)
-        .where(`date >= :startDate AND date <= :endDate`, { startDate, endDate })
-        .groupBy(`date`)
-        .orderBy(`date`, `ASC`)
-    }
+    //build where clause
+    if (provider !== Provider.NONE) addWhereClause(`provider`, provider, where, params)
 
-    //get for specific provider
-    else {
-      query.select(`price`)
-        .addSelect(`offers`)
-        .addSelect(`date`)
-        .where(`provider = :provider`, { provider })
-        .andWhere(`date >= :startDate AND date <= :endDate`, { startDate, endDate })
-        .orderBy(`date`, `ASC`)
-    }
+    //build query
+    const query = `
+      SELECT
+        t1.date,
+        t2.price,
+        t2.min_price,
+        t2.max_price,
+        t2.offers
+      FROM (
+        SELECT
+          date,
+          To_char(date, '${periodMask(period)}') as date_string
+        FROM
+          generate_series($1::DATE, $2::DATE, '${periodSeries(period)}'::interval) as date
+      ) t1
+      LEFT OUTER JOIN (
+        SELECT
+          AVG(price) as price,
+          MIN(price) as min_price,
+          MAX(price) as max_price,
+          SUM(offers) as offers,
+          To_char(date, '${periodMask(period)}') as date_string
+        FROM quotes
+        ${where.length ? `WHERE ${where.join(` AND `)}` : ``}
+        GROUP BY date_string
+      ) t2
+      ON t1.date_string = t2.date_string
+    `
 
     //fetch
-    const result = await query.getRawMany()
+    const queryResult = await this.dataSource.query(query, params)
 
-    //pack and return
-    return result.map((quote) => ({
-      price: Number(quote.price / 100),
-      offers: Number(quote.offers),
-      date: shortDate(quote.date)
-    }))
+    //compose response
+    const result:IQuotesData = {
+      minPrice: 0,
+      maxPrice: 0,
+      quotes: []
+    }
+
+    for (const row of queryResult) {
+      if (!row.price) continue
+
+      const minPrice = Number(row.min_price)
+      if (!result.minPrice || minPrice < result.minPrice) result.minPrice = minPrice
+      const maxPrice = Number(row.max_price)
+      if (!result.maxPrice || maxPrice > result.maxPrice) result.maxPrice = maxPrice
+
+      result.quotes.push({
+        price: Math.round(Number(row.price)) / 100,
+        offers: Number(row.offers),
+        date: formatDate(row.date, period)
+      })
+    }
+
+    result.minPrice = Math.round(result.minPrice) / 100
+    result.maxPrice = Math.round(result.maxPrice) / 100
+
+    //success
+    return result
   }
 
 }

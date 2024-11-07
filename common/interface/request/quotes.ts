@@ -1,3 +1,4 @@
+import Period from "@@/enum/period"
 import Provider from "@@/enum/provider"
 
 
@@ -6,6 +7,7 @@ import Provider from "@@/enum/provider"
 
 export interface IQuotesRequest {
   provider: Provider
+  period: Period
   startDate: Date
   endDate: Date
 }
@@ -15,12 +17,16 @@ export interface IQuotesRequest {
 
 
 export interface IQuotesData {
-  price: number
-  offers: number
-  date: string
+  minPrice: number
+  maxPrice: number
+  quotes: {
+    price: number
+    offers: number
+    date: string
+  }[]
 }
 
 export interface IQuotesResponse {
   status: number
-  data: IQuotesData[]
+  data: IQuotesData
 }

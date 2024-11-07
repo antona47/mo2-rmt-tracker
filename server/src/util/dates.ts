@@ -56,6 +56,17 @@ export const adjustDatesToPeriod = (payload:IDatePayload) => {
 
 
 
+export const formatDate = (date:Date, period:Period):string => {
+  if (period === Period.DAY) return shortDate(date)
+  if (period === Period.WEEK) return shortDate(date)
+  if (period === Period.MONTH) return shortMonth(date)
+  if (period === Period.YEAR) return `${date.getFullYear()}`
+}
+
+
+
+
+
 export const zeroedDate = (date:Date):Date => {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate())
 }

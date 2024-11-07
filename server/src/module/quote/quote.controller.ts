@@ -35,7 +35,7 @@ export class QuoteController {
     }
 
     //fetch data
-    const data = await this.quoteService.getQuotes(payload.provider, payload.startDate, payload.endDate)
+    const data = await this.quoteService.getQuotes(payload.provider, payload.period, payload.startDate, payload.endDate)
 
     //success
     return {

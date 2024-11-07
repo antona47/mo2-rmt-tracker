@@ -9,7 +9,7 @@ import If from '@/components/abstract/If'
 
 
 interface IOffers {
-  quotes: IQuotesData[]
+  data: IQuotesData
   loading: boolean
   Chart: any
 }
@@ -18,7 +18,7 @@ interface IOffers {
 
 
 
-const Offers = ({ quotes, loading, Chart }:IOffers) => {
+const Offers = ({ data, loading, Chart }:IOffers) => {
   return (
     <div className="w-full mt-16">
 
@@ -36,11 +36,11 @@ const Offers = ({ quotes, loading, Chart }:IOffers) => {
 
         <If condition={!loading}>
 
-          <If condition={quotes.length}>
-            <Chart mode="offers" data={quotes} />
+          <If condition={data.quotes.length}>
+            <Chart mode="offers" data={data.quotes} />
           </If>
 
-          <If condition={!quotes.length}>
+          <If condition={!data.quotes.length}>
             <span className="self-center">
               [no data]
             </span>
@@ -50,7 +50,7 @@ const Offers = ({ quotes, loading, Chart }:IOffers) => {
 
       </div>
 
-      <Totals quotes={quotes} />
+      <Totals data={data} />
 
     </div>
   )
