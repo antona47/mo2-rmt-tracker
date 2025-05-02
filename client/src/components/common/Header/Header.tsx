@@ -20,7 +20,6 @@ interface IHeader {
 
 
 
-
 const Header = ({ isPrivate }:IHeader) => {
   const session = useContext(sessionContext)
 

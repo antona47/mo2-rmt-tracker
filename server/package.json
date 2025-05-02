@@ -24,6 +24,7 @@
     "@nestjs/schedule": "^4.1.0",
     "@nestjs/typeorm": "^10.0.2",
     "axios": "^1.7.2",
+    "cheerio": "^1.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie-parser": "^1.4.6",
@@ -33,17 +34,20 @@
     "mkdirp": "^3.0.1",
     "node-config-ts": "^3.3.1",
     "pg": "^8.12.0",
-    "typeorm": "^0.3.20",
-    "x-ray": "^2.3.3"
+    "puppeteer": "^24.7.2",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@golevelup/ts-jest": "^0.5.0",
     "@nestjs/testing": "^10.3.10",
+    "@types/cheerio": "^0.22.35",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.9",
     "@types/pg": "^8.11.6",
-    "@types/x-ray": "^2.3.6",
+    "@types/puppeteer": "^7.0.4",
     "jest": "^29.7.0",
     "typescript": "^5.5.3"
   }

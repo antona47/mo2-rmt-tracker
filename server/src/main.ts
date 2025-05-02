@@ -4,7 +4,7 @@ import { config } from 'node-config-ts'
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 
-import * as cookieParser from 'cookie-parser'
+import cookieParser from 'cookie-parser'
 import { ValidationPipe, VersioningType } from '@nestjs/common'
 
 import { AppModule } from './app.module'
